@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <ImageView
+        android:id="@+id/backgroundii"
+        android:layerType="software"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/background_image"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/fonmain" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="42dp"
+            android:orientation="vertical">
+
+            <ToggleButton
+                android:id="@+id/easyLevelBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
+                android:background="@drawable/botton_toggles"
+                android:fontFamily="@font/aldrich"
+                android:onClick="mainActivityEasyBtn"
+                android:soundEffectsEnabled="false"
+                android:textOff="@string/easy"
+                android:textOn="@string/easy"
+                android:textSize="@dimen/main_levels_text" />
+
+            <ToggleButton
+                android:id="@+id/normalLevelBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
+                android:background="@drawable/botton_toggles"
+                android:fontFamily="@font/aldrich"
+                android:onClick="mainActivityNormalBtn"
+                android:soundEffectsEnabled="false"
+                android:textOff="@string/normal"
+                android:textOn="@string/normal"
+                android:textSize="@dimen/main_levels_text" />
+
+            <ToggleButton
+                android:id="@+id/hardLevelBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
+                android:background="@drawable/botton_toggles"
+                android:fontFamily="@font/aldrich"
+                android:onClick="mainActivityHardBtn"
+                android:soundEffectsEnabled="false"
+                android:textOff="@string/hard"
+                android:textOn="@string/hard"
+                android:textSize="@dimen/main_levels_text" />
+
+            <ToggleButton
+                android:id="@+id/trickyLevelBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/main_levels_dist_up"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
+                android:background="@drawable/botton_toggles"
+                android:fontFamily="@font/aldrich"
+                android:onClick="mainActivityTrickyBtn"
+                android:soundEffectsEnabled="false"
+                android:textOff="@string/tricky"
+                android:textOn="@string/tricky"
+                android:textSize="@dimen/main_levels_text" />
+
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/main_levels_dist_up"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bottons_checked"
+                android:fontFamily="@font/aldrich"
+                android:onClick="taskActivity"
+                android:soundEffectsEnabled="false"
+                android:text="@string/get_started"
+                android:textSize="28sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.42" />
+
+
+
+    <ImageView
+        android:id="@+id/menuQuBtn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.97"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02"
+        app:srcCompat="@drawable/ic_baseline_menu_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

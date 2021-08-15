@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Kotlin for Android BtA5</string>
+    <string name="background_image">background image</string>
+    <string name="easy">EASY</string>
+    <string name="normal">NORMAL</string>
+    <string name="hard">HARD</string>
+    <string name="tricky">TRICKY</string>
+    <string name="get_started">GET STARTED</string>
+    <string name="a">A</string>
+    <string name="b">B</string>
+    <string name="c">C</string>
+    <string name="d">D</string>
+    <string name="submit">Submit</string>
+    <string name="hint">HINT</string>
+    <string name="task1">task1</string>
+    <string name="text_here_text_here_text_here_text_here_text_here_text_here_text_here_text_here_text_here">Text here Text here Text here Text here Text here Text here Text here Text here Text here</string>
+    <string name="f">F</string>
+    <string name="e">E</string>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="question_text">20sp</dimen>
+    <dimen name="main_levels_text">18sp</dimen>
+    <dimen name="main_levels_dist_up">8dp</dimen>
+    <dimen name="main_levels_dist_down">8dp</dimen>
+    <dimen name="hint_btn_mrgns">8dp</dimen>
+
+</resources>
