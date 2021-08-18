@@ -37,6 +37,7 @@ class MainActivity : LifecycleActivity() {
         normalLevelBtn.isChecked = false
         hardLevelBtn.isChecked = false
         trickyLevelBtn.isChecked = false
+        impBtn.isChecked = false
 
         if (easyLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
         else playerLvlSelected.levelChoise = "Easy"
@@ -46,6 +47,7 @@ class MainActivity : LifecycleActivity() {
         easyLevelBtn.isChecked = false
         hardLevelBtn.isChecked = false
         trickyLevelBtn.isChecked = false
+        impBtn.isChecked = false
 
         if (normalLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
         else playerLvlSelected.levelChoise = "Normal"
@@ -55,6 +57,7 @@ class MainActivity : LifecycleActivity() {
         normalLevelBtn.isChecked = false
         easyLevelBtn.isChecked = false
         trickyLevelBtn.isChecked = false
+        impBtn.isChecked = false
 
         if (hardLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
         else playerLvlSelected.levelChoise = "Hard"
@@ -64,9 +67,21 @@ class MainActivity : LifecycleActivity() {
         normalLevelBtn.isChecked = false
         hardLevelBtn.isChecked = false
         easyLevelBtn.isChecked = false
+        impBtn.isChecked = false
 
         if (trickyLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
         else playerLvlSelected.levelChoise = "Tricky"
+    }
+
+    fun mainActivityimpBtn (view:View){
+
+        normalLevelBtn.isChecked = false
+        hardLevelBtn.isChecked = false
+        trickyLevelBtn.isChecked = false
+        easyLevelBtn.isChecked = false
+
+        if (impBtn.isChecked == false) playerLvlSelected.levelChoise = ""
+        else playerLvlSelected.levelChoise = "Impossible"
     }
 
     private fun onMenuClicked() {
