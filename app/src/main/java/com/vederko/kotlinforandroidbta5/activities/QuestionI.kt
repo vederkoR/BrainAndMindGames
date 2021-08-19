@@ -2,6 +2,7 @@ package com.vederko.kotlinforandroidbta5.activities
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
@@ -24,6 +25,7 @@ class QuestionI : LifecycleActivity() {
     var mQuestionsList: ArrayList<Question>? = null
     var myAnswer : Int = 0
     var choiceSound: MediaPlayer? = null
+    var musicBg: MediaPlayer? = null
     var numberOfLives: Int? = null
     var numberOfPoints: Int? = null
     var numberOfEnergy: Int? = null
@@ -40,6 +42,30 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
         checkPlayerState(sharedPreference)
         setQuestion()
         menuQuBtn.setOnClickListener {onMenuQuClicked()}
+        musicPlay()
+    }
+
+    fun stopSound(view: View) {
+        if (musicBg != null) {
+            musicBg!!.stop()
+            musicBg!!.release()
+            musicBg = null
+        }
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        if (musicBg != null) {
+            musicBg!!.release()
+            musicBg = null
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        musicPlay()
+
     }
 
     fun checkPlayerState(flx:SharedPreference) {
@@ -59,6 +85,18 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
         tvHints.text = numberOfEnergy.toString()
     }
 
+
+    fun musicPlay() {
+        try {if (musicBg == null) {
+            musicBg = MediaPlayer.create(applicationContext, R.raw.musicplay)
+            musicBg!!.isLooping = true
+            musicBg!!.start()
+        } else {
+            musicBg!!.start()
+        }
+        } catch (e: Exception){
+        }
+    }
 
     fun nextTaskActivity(view: View) {
         val question = mQuestionsList!![mCurrentPosition]
@@ -90,7 +128,11 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
             regime = 0
             myAnswer = 0
             nextActivity.text ="Submit"
-            questionBG.setImageResource(R.drawable.fon)
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                questionBG.setImageResource(R.drawable.fonlandscape)
+            } else {
+                questionBG.setImageResource(R.drawable.fon)
+            }
             if (numberOfLives == 0){
                 Snackbar.make(view, "You don't have enough lives to continue!", Snackbar.LENGTH_SHORT).
                 show()
@@ -122,7 +164,11 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
                 taskQuestion.text = question.answer
                 taskImage.setImageResource(question.answerImage)
                 taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
-                questionBG.setImageResource(R.drawable.correct)
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    questionBG.setImageResource(R.drawable.correctland)
+                } else {
+                    questionBG.setImageResource(R.drawable.correct)
+                }
                 numberOfPoints = numberOfPoints!! + 5
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfPs", numberOfPoints!!)
@@ -145,7 +191,11 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
                 taskQuestion.text = question.answer
                 taskImage.setImageResource(question.answerImage)
                 taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
-                questionBG.setImageResource(R.drawable.wrong)
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    questionBG.setImageResource(R.drawable.wrongland)
+                } else {
+                    questionBG.setImageResource(R.drawable.wrong)
+                }
                numberOfLives = numberOfLives!!-1
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfLs", numberOfLives!!)
