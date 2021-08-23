@@ -25,7 +25,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/lowLiveBtnOk"
+                android:id="@+id/OkBtn"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -53,7 +53,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/homeView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="6dp"
@@ -81,7 +81,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/lightgrey"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/lowLiveBtnOk"
+                app:layout_constraintBottom_toTopOf="@+id/OkBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
                 app:layout_constraintTop_toTopOf="parent"

@@ -39,21 +39,21 @@
                 app:layout_constraintVertical_bias="0.05">
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/aboutView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/about" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/soundView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/soundplus" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/musicView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -74,7 +74,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView3">
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/shareView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -88,7 +88,7 @@
                     app:srcCompat="@drawable/share" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/rateView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -176,7 +176,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
             <Button
-                android:id="@+id/lowLiveBtnOk"
+                android:id="@+id/OkBtn"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bottons"
@@ -190,11 +190,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/homeView"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/lowLiveBtnOk"
+                app:layout_constraintEnd_toStartOf="@+id/OkBtn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
                 app:srcCompat="@drawable/home" />

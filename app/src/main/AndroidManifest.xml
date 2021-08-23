@@ -9,8 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinForAndroidBtA5">
-        <activity android:name=".activities.TaskListActivity"></activity>
-        <activity android:name=".Atest" />
+        <activity android:name=".activities.TaskListActivity" />
         <activity android:name=".activities.LifecycleActivity" />
         <activity android:name=".activities.QuestionI" />
         <activity android:name=".activities.MainActivity">

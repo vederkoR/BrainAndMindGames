@@ -1,13 +1,11 @@
 package com.vederko.kotlinforandroidbta5.activities
 
 import android.app.Dialog
-import android.content.Intent
 import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
-import android.widget.Button
-import android.widget.Toast
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.rommansabbir.animationx.*
@@ -30,19 +28,46 @@ class QuestionI : LifecycleActivity() {
     var numberOfPoints: Int? = null
     var numberOfEnergy: Int? = null
     var flagForHint:Int = -1
+    var state = State()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_i)
-val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
+        val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
         val sharedPreference: SharedPreference = SharedPreference(this)
-//        dOption.isVisible = false
-
         mQuestionsList = Constants.getQuestions()
         checkPlayerState(sharedPreference)
         setQuestion()
-        menuQuBtn.setOnClickListener {onMenuQuClicked()}
         musicPlay()
+
+        val sharedPreferenceMenu= SharedPreference(this)
+
+        var musicSet = sharedPreferenceMenu.getValueInt("music")
+        var soundSet = sharedPreferenceMenu.getValueInt("sound")
+        var mainMenuDialog = MenuDialog(this@QuestionI, musicSet, soundSet)
+        menuQuBtn.setOnClickListener {mainMenuDialog.onMenuClicked()}
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState.putParcelable(STATE, state)
+    }
+
+    override fun onRestoreInstanceState(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?
+    ) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState)
+        if (savedInstanceState != null){
+        state = savedInstanceState.getParcelable(STATE)!!
+        regime = state.regime.toInt()
+        mCurrentPosition = state.quesId.toInt()
+        if (regime == 0){
+
+        } else {
+
+        }
+        }
     }
 
     fun stopSound(view: View) {
@@ -68,7 +93,7 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
 
     }
 
-    fun checkPlayerState(flx:SharedPreference) {
+    private fun checkPlayerState(flx:SharedPreference) {
         numberOfLives = flx.getValueInt("numberOfLs")
         if (numberOfLives == -2) numberOfLives = 3
         flx.save("numberOfLs", numberOfLives!!)
@@ -111,6 +136,8 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
             }
         }else if (regime == 1) {
             mCurrentPosition++
+            state.quesId =  mCurrentPosition.toString()
+
             hintBtn.text = "?"
             aOption.isChecked = false
             bOption.isChecked = false
@@ -127,6 +154,9 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
             setQuestion()
             regime = 0
             myAnswer = 0
+            state.choice = "0"
+            state.regime = "0"
+
             nextActivity.text ="Submit"
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 questionBG.setImageResource(R.drawable.fonlandscape)
@@ -140,7 +170,7 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
                 livesDialog.setContentView(R.layout.low_lives_layout)
                 livesDialog.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
                 livesDialog.show()
-                livesDialog.lowLiveBtnOk.setOnClickListener {
+                livesDialog.OkBtn.setOnClickListener {
                     numberOfLives = 2
                     livesDialog.dismiss()
                     val prizeDialog = Dialog(this)
@@ -225,12 +255,16 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
                 }
             }
         regime =1
+            state.regime = "1"
             nextActivity.text ="Next"
         }
     }
 
     fun onAListener (view:View){
         if (regime == 0){
+
+            state.choice = "1"
+
         bOption.isChecked = false
         cOption.isChecked = false
         dOption.isChecked = false
@@ -253,6 +287,9 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
     }}
     fun onBListener (view:View){
         if (regime == 0){
+
+            state.choice = "2"
+
         aOption.isChecked = false
         cOption.isChecked = false
         dOption.isChecked = false
@@ -275,6 +312,9 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
     }}
     fun onCListener (view:View){
         if (regime == 0){
+
+            state.choice = "3"
+
         bOption.isChecked = false
         aOption.isChecked = false
         dOption.isChecked = false
@@ -297,6 +337,9 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
     }}
     fun onDListener (view:View){
         if (regime == 0){
+
+            state.choice = "4"
+
         bOption.isChecked = false
         cOption.isChecked = false
         aOption.isChecked = false
@@ -318,6 +361,9 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
         fOption.setBackgroundResource(R.drawable.bottons)
         }}
     fun onEListener (view:View){
+
+        state.choice = "5"
+
         if (regime == 0){
         bOption.isChecked = false
         cOption.isChecked = false
@@ -341,6 +387,9 @@ val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
     }}
     fun onFListener (view:View){
         if (regime == 0){
+
+            state.choice = "6"
+
         bOption.isChecked = false
         cOption.isChecked = false
         dOption.isChecked = false

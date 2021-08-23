@@ -3,6 +3,7 @@ package com.vederko.kotlinforandroidbta5.utilities
 import com.vederko.kotlinforandroidbta5.R
 
 const val PLAYER = "player"
+const val STATE = "state"
 
 object Constants {
 
