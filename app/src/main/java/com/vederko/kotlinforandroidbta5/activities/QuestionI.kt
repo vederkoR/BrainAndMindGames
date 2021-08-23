@@ -1,11 +1,13 @@
 package com.vederko.kotlinforandroidbta5.activities
 
 import android.app.Dialog
+import android.content.Intent
 import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.rommansabbir.animationx.*
@@ -14,6 +16,9 @@ import com.vederko.kotlinforandroidbta5.utilities.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_question_i.*
 import kotlinx.android.synthetic.main.low_lives_layout.*
+import kotlinx.android.synthetic.main.low_lives_layout.OkBtn
+import kotlinx.android.synthetic.main.low_lives_layout.homeView
+import kotlinx.android.synthetic.main.menu_layout.*
 import java.lang.Exception
 import kotlinx.android.synthetic.main.activity_main.menuQuBtn as menuQuBtn
 
@@ -34,7 +39,7 @@ class QuestionI : LifecycleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_i)
         val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
-        val sharedPreference: SharedPreference = SharedPreference(this)
+        val sharedPreference = SharedPreference(this)
         mQuestionsList = Constants.getQuestions()
         checkPlayerState(sharedPreference)
         setQuestion()
@@ -44,8 +49,9 @@ class QuestionI : LifecycleActivity() {
 
         var musicSet = sharedPreferenceMenu.getValueInt("music")
         var soundSet = sharedPreferenceMenu.getValueInt("sound")
-        var mainMenuDialog = MenuDialog(this@QuestionI, musicSet, soundSet)
-        menuQuBtn.setOnClickListener {mainMenuDialog.onMenuClicked()}
+        menuQuBtn.setOnClickListener {
+            onMenuClicked(musicSet, soundSet)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
@@ -62,10 +68,16 @@ class QuestionI : LifecycleActivity() {
         state = savedInstanceState.getParcelable(STATE)!!
         regime = state.regime.toInt()
         mCurrentPosition = state.quesId.toInt()
+
         if (regime == 0){
 
         } else {
-
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                questionBG.setImageResource(R.drawable.fonlandscape)
+            } else {
+                questionBG.setImageResource(R.drawable.fon)
+            }
+            setQuestion()
         }
         }
     }
@@ -476,5 +488,58 @@ class QuestionI : LifecycleActivity() {
         }
         }
     }
+    private fun onMenuClicked(musics: Int, sounds: Int) {
+        var music = musics
+        var sound = sounds
+        val sharedPreferenceMenu= SharedPreference(this)
+        val menuDialogMain = Dialog(this)
+        menuDialogMain.setContentView(R.layout.menu_layout)
+        menuDialogMain.window
+            ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+        menuDialogMain.show()
+        if (music == -1) {
+            menuDialogMain.musicView.setImageResource(R.drawable.musicplus)
+        } else menuDialogMain.musicView.setImageResource(R.drawable.musicminus)
+
+        if (sound == -1) {
+            menuDialogMain.soundView.setImageResource(R.drawable.soundplus)
+        } else menuDialogMain.soundView.setImageResource(R.drawable.soundminus)
+
+        menuDialogMain.musicView.setOnClickListener {
+            if (music == -1) {
+                music = -2
+                menuDialogMain.musicView.setImageResource(R.drawable.musicminus)
+
+            } else if (music == -2) {
+                music = -1
+                menuDialogMain.musicView.setImageResource(R.drawable.musicplus)
+            }
+            sharedPreferenceMenu.save("music", music)
+        }
+
+        menuDialogMain.soundView.setOnClickListener {
+            if (sound == -1) {
+                sound = -2
+                menuDialogMain.soundView.setImageResource(R.drawable.soundminus)
+            } else if (sound == -2) {
+                sound = -1
+                menuDialogMain.soundView.setImageResource(R.drawable.soundplus)
+            }
+            sharedPreferenceMenu.save("sound", sound)
+        }
+
+        menuDialogMain.homeView.setOnClickListener {
+            val home = Intent(this, MainActivity::class.java)
+            ContextCompat.startActivity(this, home, null)
+            menuDialogMain.dismiss()
+        }
+
+        menuDialogMain.OkBtn.setOnClickListener {
+            menuDialogMain.dismiss()
+        }
+
+    }
 
 }
+
+
