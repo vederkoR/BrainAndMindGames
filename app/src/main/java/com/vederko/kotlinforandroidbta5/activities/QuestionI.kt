@@ -51,6 +51,7 @@ class QuestionI : LifecycleActivity() {
         var soundSet = sharedPreferenceMenu.getValueInt("sound")
         menuQuBtn.setOnClickListener {
             onMenuClicked(musicSet, soundSet)
+
         }
     }
 
@@ -64,21 +65,21 @@ class QuestionI : LifecycleActivity() {
         persistentState: PersistableBundle?
     ) {
         super.onRestoreInstanceState(savedInstanceState, persistentState)
-        if (savedInstanceState != null){
-        state = savedInstanceState.getParcelable(STATE)!!
-        regime = state.regime.toInt()
-        mCurrentPosition = state.quesId.toInt()
+        if (savedInstanceState != null) {
+            state = savedInstanceState.getParcelable(STATE)!!
 
-        if (regime == 0){
-
-        } else {
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                questionBG.setImageResource(R.drawable.fonlandscape)
-            } else {
-                questionBG.setImageResource(R.drawable.fon)
-            }
+            regime = state.regime.toInt()
+            mCurrentPosition = state.quesId.toInt()
             setQuestion()
-        }
+            if (regime == 0) {
+                questionBG.setImageResource(R.drawable.fon)
+            } else {
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    questionBG.setImageResource(R.drawable.fonlandscape)
+                } else {
+                    questionBG.setImageResource(R.drawable.fon)
+                }
+            }
         }
     }
 
@@ -123,7 +124,7 @@ class QuestionI : LifecycleActivity() {
     }
 
 
-    fun musicPlay() {
+    private fun musicPlay() {
         try {if (musicBg == null) {
             musicBg = MediaPlayer.create(applicationContext, R.raw.musicplay)
             musicBg!!.isLooping = true
@@ -297,6 +298,7 @@ class QuestionI : LifecycleActivity() {
         eOption.setBackgroundResource(R.drawable.bottons)
         fOption.setBackgroundResource(R.drawable.bottons)
     }}
+
     fun onBListener (view:View){
         if (regime == 0){
 
@@ -322,6 +324,7 @@ class QuestionI : LifecycleActivity() {
         eOption.setBackgroundResource(R.drawable.bottons)
         fOption.setBackgroundResource(R.drawable.bottons)
     }}
+
     fun onCListener (view:View){
         if (regime == 0){
 
@@ -347,6 +350,7 @@ class QuestionI : LifecycleActivity() {
         eOption.setBackgroundResource(R.drawable.bottons)
         fOption.setBackgroundResource(R.drawable.bottons)
     }}
+
     fun onDListener (view:View){
         if (regime == 0){
 
@@ -372,6 +376,7 @@ class QuestionI : LifecycleActivity() {
         eOption.setBackgroundResource(R.drawable.bottons)
         fOption.setBackgroundResource(R.drawable.bottons)
         }}
+
     fun onEListener (view:View){
 
         state.choice = "5"
@@ -397,6 +402,7 @@ class QuestionI : LifecycleActivity() {
         eOption.setBackgroundResource(R.drawable.bottons_checked)
         fOption.setBackgroundResource(R.drawable.bottons)
     }}
+
     fun onFListener (view:View){
         if (regime == 0){
 
@@ -423,8 +429,8 @@ class QuestionI : LifecycleActivity() {
         fOption.setBackgroundResource(R.drawable.bottons_checked)
     }}
 
-    fun setQuestion() {
-        var question = mQuestionsList!![mCurrentPosition]
+    private fun setQuestion() {
+        val question = mQuestionsList!![mCurrentPosition]
         when (question.numberOfQuestions) {
             3 -> {
                 dOption.visibility = View.INVISIBLE
@@ -447,12 +453,6 @@ class QuestionI : LifecycleActivity() {
         taskImage.animationXZoom(Zoom.ZOOM_IN)
         taskQuestion.text = question.question
 
-    }
-    private fun onMenuQuClicked() {
-        val menuDialogMain = Dialog(this)
-        menuDialogMain.setContentView(R.layout.menu_layout)
-        menuDialogMain.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
-        menuDialogMain.show()
     }
 
     fun onClickHint(view: View) {
@@ -488,6 +488,7 @@ class QuestionI : LifecycleActivity() {
         }
         }
     }
+
     private fun onMenuClicked(musics: Int, sounds: Int) {
         var music = musics
         var sound = sounds
@@ -541,5 +542,3 @@ class QuestionI : LifecycleActivity() {
     }
 
 }
-
-
