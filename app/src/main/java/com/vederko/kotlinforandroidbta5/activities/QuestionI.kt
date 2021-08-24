@@ -9,6 +9,7 @@ import android.os.PersistableBundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.rommansabbir.animationx.*
 import com.vederko.kotlinforandroidbta5.R
@@ -33,7 +34,7 @@ class QuestionI : LifecycleActivity() {
     var numberOfPoints: Int? = null
     var numberOfEnergy: Int? = null
     var flagForHint:Int = -1
-    var state = State()
+    private lateinit var viewModel: QuestionActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,12 @@ class QuestionI : LifecycleActivity() {
         val sharedPreference = SharedPreference(this)
         mQuestionsList = Constants.getQuestions()
         checkPlayerState(sharedPreference)
+
+        viewModel = ViewModelProvider(this).get(QuestionActivityViewModel::class.java)
+        viewModel.position.observe(this, {
+            mCurrentPosition = it
+        })
+
         setQuestion()
         musicPlay()
 
@@ -51,34 +58,6 @@ class QuestionI : LifecycleActivity() {
             onMenuClicked(sharedPreferenceMenu.getValueInt("music"),
                 sharedPreferenceMenu.getValueInt("sound"))
 
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState.putParcelable(STATE, state)
-    }
-
-    override fun onRestoreInstanceState(
-        savedInstanceState: Bundle?,
-        persistentState: PersistableBundle?
-    ) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState)
-        if (savedInstanceState != null) {
-            state = savedInstanceState.getParcelable(STATE)!!
-
-            regime = state.regime.toInt()
-            mCurrentPosition = state.quesId.toInt()
-            setQuestion()
-            if (regime == 0) {
-                questionBG.setImageResource(R.drawable.fon)
-            } else {
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    questionBG.setImageResource(R.drawable.fonlandscape)
-                } else {
-                    questionBG.setImageResource(R.drawable.fon)
-                }
-            }
         }
     }
 
@@ -147,8 +126,8 @@ class QuestionI : LifecycleActivity() {
 
             }
         }else if (regime == 1) {
-            mCurrentPosition++
-            state.quesId =  mCurrentPosition.toString()
+            viewModel.increment()
+            viewModel.position.observe(this, { mCurrentPosition = it })
 
             hintBtn.text = "?"
             aOption.isChecked = false
@@ -166,8 +145,7 @@ class QuestionI : LifecycleActivity() {
             setQuestion()
             regime = 0
             myAnswer = 0
-            state.choice = "0"
-            state.regime = "0"
+
 
             nextActivity.text ="Submit"
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -267,15 +245,12 @@ class QuestionI : LifecycleActivity() {
                 }
             }
         regime =1
-            state.regime = "1"
             nextActivity.text ="Next"
         }
     }
 
     fun onAListener (view:View){
         if (regime == 0){
-
-            state.choice = "1"
 
         bOption.isChecked = false
         cOption.isChecked = false
@@ -301,7 +276,6 @@ class QuestionI : LifecycleActivity() {
     fun onBListener (view:View){
         if (regime == 0){
 
-            state.choice = "2"
 
         aOption.isChecked = false
         cOption.isChecked = false
@@ -327,7 +301,6 @@ class QuestionI : LifecycleActivity() {
     fun onCListener (view:View){
         if (regime == 0){
 
-            state.choice = "3"
 
         bOption.isChecked = false
         aOption.isChecked = false
@@ -353,7 +326,6 @@ class QuestionI : LifecycleActivity() {
     fun onDListener (view:View){
         if (regime == 0){
 
-            state.choice = "4"
 
         bOption.isChecked = false
         cOption.isChecked = false
@@ -378,7 +350,6 @@ class QuestionI : LifecycleActivity() {
 
     fun onEListener (view:View){
 
-        state.choice = "5"
 
         if (regime == 0){
         bOption.isChecked = false
@@ -405,7 +376,6 @@ class QuestionI : LifecycleActivity() {
     fun onFListener (view:View){
         if (regime == 0){
 
-            state.choice = "6"
 
         bOption.isChecked = false
         cOption.isChecked = false
@@ -429,6 +399,7 @@ class QuestionI : LifecycleActivity() {
     }}
 
     private fun setQuestion() {
+        viewModel.position.observe(this, { mCurrentPosition = it })
         val question = mQuestionsList!![mCurrentPosition]
         when (question.numberOfQuestions) {
             3 -> {
@@ -455,6 +426,7 @@ class QuestionI : LifecycleActivity() {
     }
 
     fun onClickHint(view: View) {
+        viewModel.position.observe(this, { mCurrentPosition = it })
         val question = mQuestionsList!![mCurrentPosition]
         if (nextActivity.text =="Submit"){
             if (numberOfEnergy ==0){
