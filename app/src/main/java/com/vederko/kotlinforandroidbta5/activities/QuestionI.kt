@@ -47,10 +47,9 @@ class QuestionI : LifecycleActivity() {
 
         val sharedPreferenceMenu= SharedPreference(this)
 
-        var musicSet = sharedPreferenceMenu.getValueInt("music")
-        var soundSet = sharedPreferenceMenu.getValueInt("sound")
         menuQuBtn.setOnClickListener {
-            onMenuClicked(musicSet, soundSet)
+            onMenuClicked(sharedPreferenceMenu.getValueInt("music"),
+                sharedPreferenceMenu.getValueInt("sound"))
 
         }
     }

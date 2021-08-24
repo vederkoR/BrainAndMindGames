@@ -25,11 +25,10 @@ class MainActivity : LifecycleActivity() {
 
         val sharedPreferenceMenu= SharedPreference(this@MainActivity)
 
-        var musicSet = sharedPreferenceMenu.getValueInt("music")
-        var soundSet = sharedPreferenceMenu.getValueInt("sound")
-        menuQuBtn.setOnClickListener {
-            onMenuClicked(musicSet, soundSet)
 
+        menuQuBtn.setOnClickListener {
+            onMenuClicked(sharedPreferenceMenu.getValueInt("music"),
+                sharedPreferenceMenu.getValueInt("sound"))
         }
 
 
