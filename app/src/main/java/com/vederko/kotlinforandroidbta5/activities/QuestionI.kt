@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -22,6 +21,8 @@ import kotlinx.android.synthetic.main.low_lives_layout.homeView
 import kotlinx.android.synthetic.main.menu_layout.*
 import java.lang.Exception
 import kotlinx.android.synthetic.main.activity_main.menuQuBtn as menuQuBtn
+
+
 
 class QuestionI : LifecycleActivity() {
     var mCurrentPosition: Int = 0
@@ -44,12 +45,16 @@ class QuestionI : LifecycleActivity() {
         mQuestionsList = Constants.getQuestions()
         checkPlayerState(sharedPreference)
 
-        viewModel = ViewModelProvider(this).get(QuestionActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this,
+            QuestionViewModelFactory(mCurrentPosition))
+            .get(QuestionActivityViewModel::class.java)
+        viewModel.answerLD.observe(this, {myAnswer = it })
+        viewModel.regimeLD.observe(this, {regime = it })
         viewModel.position.observe(this, {
             mCurrentPosition = it
+            setQuestion()
         })
 
-        setQuestion()
         musicPlay()
 
         val sharedPreferenceMenu= SharedPreference(this)
@@ -60,6 +65,24 @@ class QuestionI : LifecycleActivity() {
 
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("POSITION", mCurrentPosition)
+        outState.putInt("ANSWER", myAnswer)
+        outState.putInt("REGIME", regime)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        viewModel.position.observe(this, {mCurrentPosition = it })
+        mCurrentPosition = savedInstanceState.getInt("POSITION")
+        myAnswer = savedInstanceState.getInt("ANSWER")
+        regime = savedInstanceState.getInt("regime")
+    }
+
+
 
     fun stopSound(view: View) {
         if (musicBg != null) {
@@ -86,16 +109,18 @@ class QuestionI : LifecycleActivity() {
 
     private fun checkPlayerState(flx:SharedPreference) {
         numberOfLives = flx.getValueInt("numberOfLs")
+
         if (numberOfLives == -2) numberOfLives = 3
         flx.save("numberOfLs", numberOfLives!!)
         tvLives.text = numberOfLives.toString()
 
         numberOfPoints = flx.getValueInt("numberOfPs")
+
         if (numberOfPoints == -2) numberOfPoints = 100
         flx.save("numberOfPs", numberOfPoints!!)
         tvPoints.text = numberOfPoints.toString()
-
         numberOfEnergy = flx.getValueInt("numberOfEs")
+
         if (numberOfEnergy == -2) numberOfEnergy = 4
         flx.save("numberOfEs", numberOfEnergy!!)
         tvHints.text = numberOfEnergy.toString()
@@ -115,9 +140,11 @@ class QuestionI : LifecycleActivity() {
     }
 
     fun nextTaskActivity(view: View) {
+        viewModel.regimeLD.observe(this, {regime = it })
         val question = mQuestionsList!![mCurrentPosition]
-        if (myAnswer == 0) {Snackbar.make(view, "Please, select your answer!", Snackbar.LENGTH_LONG).
-        show()
+        if (myAnswer == 0) {Snackbar.make(view,
+            "Please, select your answer!",
+            Snackbar.LENGTH_LONG).show()
             try {
                 choiceSound = MediaPlayer.create(applicationContext, R.raw.error)
                 choiceSound!!.isLooping = false
@@ -142,10 +169,13 @@ class QuestionI : LifecycleActivity() {
             dOption.setBackgroundResource(R.drawable.bottons)
             eOption.setBackgroundResource(R.drawable.bottons)
             fOption.setBackgroundResource(R.drawable.bottons)
-            setQuestion()
-            regime = 0
-            myAnswer = 0
 
+
+            viewModel.regimeChangeToQu()
+            viewModel.regimeLD.observe(this, {regime = it })
+            viewModel.ansNull()
+            viewModel.answerLD.observe(this, {myAnswer = it })
+            setQuestion()
 
             nextActivity.text ="Submit"
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -154,18 +184,21 @@ class QuestionI : LifecycleActivity() {
                 questionBG.setImageResource(R.drawable.fon)
             }
             if (numberOfLives == 0){
-                Snackbar.make(view, "You don't have enough lives to continue!", Snackbar.LENGTH_SHORT).
-                show()
+                Snackbar.make(view,
+                    "You don't have enough lives to continue!",
+                    Snackbar.LENGTH_SHORT).show()
                 val livesDialog = Dialog(this)
                 livesDialog.setContentView(R.layout.low_lives_layout)
-                livesDialog.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+                livesDialog.window
+                    ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
                 livesDialog.show()
                 livesDialog.OkBtn.setOnClickListener {
                     numberOfLives = 2
                     livesDialog.dismiss()
                     val prizeDialog = Dialog(this)
                     prizeDialog.setContentView(R.layout.your_price_layout)
-                    prizeDialog.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+                    prizeDialog.window
+                        ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
                     prizeDialog.show()
                 }
                 livesDialog.lowLiveBtnNO.setOnClickListener {
@@ -244,12 +277,16 @@ class QuestionI : LifecycleActivity() {
                     6 -> fOption.setBackgroundResource(R.drawable.wrong_answer)
                 }
             }
-        regime =1
+            viewModel.regimeChangeToAns()
+            viewModel.regimeLD.observe(this, {regime = it })
+
+
             nextActivity.text ="Next"
         }
     }
 
     fun onAListener (view:View){
+        viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
         bOption.isChecked = false
@@ -264,7 +301,8 @@ class QuestionI : LifecycleActivity() {
             } catch (e: Exception){
 
             }
-        myAnswer = 1
+            viewModel.answA()
+            viewModel.answerLD.observe(this, {myAnswer = it })
         aOption.setBackgroundResource(R.drawable.bottons_checked)
         bOption.setBackgroundResource(R.drawable.bottons)
         cOption.setBackgroundResource(R.drawable.bottons)
@@ -274,6 +312,7 @@ class QuestionI : LifecycleActivity() {
     }}
 
     fun onBListener (view:View){
+        viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
@@ -289,7 +328,9 @@ class QuestionI : LifecycleActivity() {
             } catch (e: Exception){
 
             }
-        myAnswer = 2
+            viewModel.answB()
+            viewModel.answerLD.observe(this, {myAnswer = it })
+
         aOption.setBackgroundResource(R.drawable.bottons)
         bOption.setBackgroundResource(R.drawable.bottons_checked)
         cOption.setBackgroundResource(R.drawable.bottons)
@@ -299,6 +340,7 @@ class QuestionI : LifecycleActivity() {
     }}
 
     fun onCListener (view:View){
+        viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
@@ -314,8 +356,11 @@ class QuestionI : LifecycleActivity() {
             } catch (e: Exception){
 
             }
-        myAnswer = 3
-        aOption.setBackgroundResource(R.drawable.bottons)
+
+            viewModel.answC()
+            viewModel.answerLD.observe(this, {myAnswer = it })
+
+            aOption.setBackgroundResource(R.drawable.bottons)
         bOption.setBackgroundResource(R.drawable.bottons)
         cOption.setBackgroundResource(R.drawable.bottons_checked)
         dOption.setBackgroundResource(R.drawable.bottons)
@@ -324,6 +369,7 @@ class QuestionI : LifecycleActivity() {
     }}
 
     fun onDListener (view:View){
+        viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
@@ -339,8 +385,12 @@ class QuestionI : LifecycleActivity() {
             } catch (e: Exception){
 
             }
-        myAnswer = 4
-        aOption.setBackgroundResource(R.drawable.bottons)
+
+            viewModel.answD()
+            viewModel.answerLD.observe(this, {myAnswer = it })
+
+
+            aOption.setBackgroundResource(R.drawable.bottons)
         bOption.setBackgroundResource(R.drawable.bottons)
         cOption.setBackgroundResource(R.drawable.bottons)
         dOption.setBackgroundResource(R.drawable.bottons_checked)
@@ -349,6 +399,7 @@ class QuestionI : LifecycleActivity() {
         }}
 
     fun onEListener (view:View){
+        viewModel.regimeLD.observe(this, {regime = it })
 
 
         if (regime == 0){
@@ -364,8 +415,10 @@ class QuestionI : LifecycleActivity() {
             } catch (e: Exception){
 
             }
-        myAnswer = 5
-        aOption.setBackgroundResource(R.drawable.bottons)
+            viewModel.answE()
+            viewModel.answerLD.observe(this, {myAnswer = it })
+
+            aOption.setBackgroundResource(R.drawable.bottons)
         bOption.setBackgroundResource(R.drawable.bottons)
         cOption.setBackgroundResource(R.drawable.bottons)
         dOption.setBackgroundResource(R.drawable.bottons)
@@ -374,6 +427,7 @@ class QuestionI : LifecycleActivity() {
     }}
 
     fun onFListener (view:View){
+        viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
@@ -389,8 +443,10 @@ class QuestionI : LifecycleActivity() {
             } catch (e: Exception){
 
             }
-        myAnswer = 6
-        aOption.setBackgroundResource(R.drawable.bottons)
+            viewModel.answF()
+            viewModel.answerLD.observe(this, {myAnswer = it })
+
+            aOption.setBackgroundResource(R.drawable.bottons)
         bOption.setBackgroundResource(R.drawable.bottons)
         cOption.setBackgroundResource(R.drawable.bottons)
         dOption.setBackgroundResource(R.drawable.bottons)
@@ -399,7 +455,6 @@ class QuestionI : LifecycleActivity() {
     }}
 
     private fun setQuestion() {
-        viewModel.position.observe(this, { mCurrentPosition = it })
         val question = mQuestionsList!![mCurrentPosition]
         when (question.numberOfQuestions) {
             3 -> {
@@ -419,10 +474,47 @@ class QuestionI : LifecycleActivity() {
             }
 
         }
-        taskImage.setImageResource(question.questionImage)
-        taskImage.animationXZoom(Zoom.ZOOM_IN)
-        taskQuestion.text = question.question
+        if (regime == 0) {
+            taskImage.setImageResource(question.questionImage)
+            taskImage.animationXZoom(Zoom.ZOOM_IN)
+            taskQuestion.text = question.question
+        } else {
+            taskImage.setImageResource(question.answerImage)
+            taskImage.animationXZoom(Zoom.ZOOM_IN)
+            taskQuestion.text = question.answer
+            nextActivity.text ="Next"
+            hintBtn.text = "Q"
+            when (question.correctAnswer) {
+                1 -> aOption.setBackgroundResource(R.drawable.correct_answer)
+                2 -> bOption.setBackgroundResource(R.drawable.correct_answer)
+                3 -> cOption.setBackgroundResource(R.drawable.correct_answer)
+                4 -> dOption.setBackgroundResource(R.drawable.correct_answer)
+                5 -> eOption.setBackgroundResource(R.drawable.correct_answer)
+                6 -> fOption.setBackgroundResource(R.drawable.correct_answer)
+            }
+            if (myAnswer == question.correctAnswer){
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    questionBG.setImageResource(R.drawable.correctland)
+                } else {
+                    questionBG.setImageResource(R.drawable.correct)
+                }
+            } else {
+                when (myAnswer) {
+                    1 -> aOption.setBackgroundResource(R.drawable.wrong_answer)
+                    2 -> bOption.setBackgroundResource(R.drawable.wrong_answer)
+                    3 -> cOption.setBackgroundResource(R.drawable.wrong_answer)
+                    4 -> dOption.setBackgroundResource(R.drawable.wrong_answer)
+                    5 -> eOption.setBackgroundResource(R.drawable.wrong_answer)
+                    6 -> fOption.setBackgroundResource(R.drawable.wrong_answer)
+                }
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    questionBG.setImageResource(R.drawable.wrongland)
+                } else {
+                    questionBG.setImageResource(R.drawable.wrong)
+                }
+            }
 
+        }
     }
 
     fun onClickHint(view: View) {
@@ -432,7 +524,7 @@ class QuestionI : LifecycleActivity() {
             if (numberOfEnergy ==0){
             val energyDialog = Dialog(this)
             energyDialog.setContentView(R.layout.low_lives_layout)
-            energyDialog.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+            energyDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
             energyDialog.show()
                 numberOfEnergy = 3
                 tvHints.text = numberOfEnergy.toString()
