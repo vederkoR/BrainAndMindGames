@@ -42,7 +42,16 @@ class QuestionI : LifecycleActivity() {
         setContentView(R.layout.activity_question_i)
         val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
         val sharedPreference = SharedPreference(this)
-        mQuestionsList = Constants.getQuestions()
+
+        when (playerLvlSelected?.levelChoise) {
+            "Easy" -> mQuestionsList = Constants.getEasyQuestions()
+            "Normal" -> mQuestionsList = Constants.getNormalQuestions()
+            "Hard" -> mQuestionsList = Constants.getHardQuestions()
+            "Tricky" -> mQuestionsList = Constants.getTrickyQuestions()
+        }
+
+
+
         checkPlayerState(sharedPreference)
 
         viewModel = ViewModelProvider(this,
@@ -533,7 +542,7 @@ class QuestionI : LifecycleActivity() {
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfEs", numberOfEnergy!!)
                 tvHints.text = numberOfEnergy.toString()
-                Snackbar.make(view, question.hint, Snackbar.LENGTH_SHORT).
+                Snackbar.make(view, question.hint, Snackbar.LENGTH_LONG).
                 show()
             }
             }else if (nextActivity.text =="Next"){

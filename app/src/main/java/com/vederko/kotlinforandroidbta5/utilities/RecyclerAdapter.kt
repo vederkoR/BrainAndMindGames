@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.vederko.kotlinforandroidbta5.R
-import com.vederko.kotlinforandroidbta5.utilities.Constants.getQuestions
+import com.vederko.kotlinforandroidbta5.utilities.Constants.getEasyQuestions
 
 class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-    var myListInitial = getQuestions()
-    var myList = myListInitial.subList(0, 8).reversed()
+    var myListInitial = getEasyQuestions()
+
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var itemImage: ImageView
@@ -21,7 +21,8 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
             itemNumber = itemView.findViewById(R.id.item_number)
             itemView.setOnClickListener { v: View ->
                 var position: Int = getAdapterPosition()
-                Snackbar.make(v, "Click detected on item ${myList.size - position}",
+
+                Snackbar.make(v, "Click detected on item $position",
 
         Snackbar.LENGTH_LONG).setAction("Action", null).show()
     }
@@ -34,10 +35,10 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.itemNumber.text = myList[i].id.toString()
-        viewHolder.itemImage.setImageResource(myList[i].iconImage)
+        viewHolder.itemNumber.text = myListInitial[i].id.toString()
+        viewHolder.itemImage.setImageResource(myListInitial[i].iconImage)
     }
     override fun getItemCount(): Int {
-        return myList.size
+        return myListInitial.size
     }
 }

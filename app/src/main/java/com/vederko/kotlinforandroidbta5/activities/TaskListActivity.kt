@@ -18,7 +18,7 @@ class TaskListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
-        layoutManager = GridLayoutManager(this,3)
+        layoutManager = GridLayoutManager(this,8)
         recyclerView.layoutManager = layoutManager
 
         adapter = RecyclerAdapter()
