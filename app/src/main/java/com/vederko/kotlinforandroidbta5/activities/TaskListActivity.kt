@@ -22,12 +22,10 @@ class TaskListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task_list)
 
         var myplayer = intent.getParcelableExtra<Player>(PLAYER)
-        var numberOfElms: Int
-        numberOfElms = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            8
-        } else {
-            4
-        }
+        val numberOfElms: Int =
+            if (resources.configuration.orientation
+                == Configuration.ORIENTATION_LANDSCAPE) 8 else 4
+
 
         layoutManager = GridLayoutManager(this,numberOfElms)
         recyclerView.layoutManager = layoutManager
