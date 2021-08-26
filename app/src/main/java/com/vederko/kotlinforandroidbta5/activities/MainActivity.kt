@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.vederko.kotlinforandroidbta5.R
 import com.vederko.kotlinforandroidbta5.utilities.PLAYER
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.menu_layout.*
 
 
 class MainActivity : LifecycleActivity() {
-    var playerLvlSelected = Player("")
+    var myplayer = Player("")
 
 
 
@@ -35,16 +36,14 @@ class MainActivity : LifecycleActivity() {
     }
 
     fun taskActivity(view: View) {
-        if (playerLvlSelected.levelChoise != "") {
-            val firstTaskIntent = Intent(this, QuestionI::class.java)
-            firstTaskIntent.putExtra(PLAYER, playerLvlSelected)
+        if (myplayer.levelChoise != "") {
+            val firstTaskIntent = Intent(this, TaskListActivity::class.java)
+            firstTaskIntent.putExtra(PLAYER, myplayer)
             startActivity(firstTaskIntent)
         } else {
-            val intent = Intent(this, TaskListActivity::class.java)
-            startActivity(intent)
-            finish()
-//            Toast.makeText(this, "Please, select a difficulty level", Toast.LENGTH_LONG).
-//                    show()
+
+            Toast.makeText(this, "Please, select a difficulty level", Toast.LENGTH_LONG).
+                    show()
         }
 
     }
@@ -56,8 +55,8 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (easyLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
-        else playerLvlSelected.levelChoise = "Easy"
+        if (easyLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        else myplayer.levelChoise = "Easy"
     }
 
     fun mainActivityNormalBtn (view:View){
@@ -66,8 +65,8 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (normalLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
-        else playerLvlSelected.levelChoise = "Normal"
+        if (normalLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        else myplayer.levelChoise = "Normal"
     }
 
     fun mainActivityHardBtn (view:View){
@@ -76,8 +75,8 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (hardLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
-        else playerLvlSelected.levelChoise = "Hard"
+        if (hardLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        else myplayer.levelChoise = "Hard"
     }
 
     fun mainActivityTrickyBtn (view:View){
@@ -86,8 +85,8 @@ class MainActivity : LifecycleActivity() {
         easyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (trickyLevelBtn.isChecked == false) playerLvlSelected.levelChoise = ""
-        else playerLvlSelected.levelChoise = "Tricky"
+        if (trickyLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        else myplayer.levelChoise = "Tricky"
     }
 
     fun mainActivityimpBtn (view:View){
@@ -97,8 +96,8 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         easyLevelBtn.isChecked = false
 
-        if (impBtn.isChecked == false) playerLvlSelected.levelChoise = ""
-        else playerLvlSelected.levelChoise = "Impossible"
+        if (impBtn.isChecked == false) myplayer.levelChoise = ""
+        else myplayer.levelChoise = "Impossible"
     }
 
     private fun onMenuClicked(musics: Int, sounds: Int) {

@@ -50,7 +50,7 @@ class QuestionI : LifecycleActivity() {
             "Tricky" -> mQuestionsList = Constants.getTrickyQuestions()
         }
 
-
+mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
 
         checkPlayerState(sharedPreference)
 

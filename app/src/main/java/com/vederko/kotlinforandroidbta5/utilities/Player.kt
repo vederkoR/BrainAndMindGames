@@ -3,12 +3,13 @@ package com.vederko.kotlinforandroidbta5.utilities
 import android.os.Parcel
 import android.os.Parcelable
 
-class Player constructor(var levelChoise : String? = "") : Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readString()) {
+class Player constructor(var levelChoise : String? = "", var quesChoise : String? = "3") : Parcelable {
+    constructor(parcel: Parcel) : this(parcel.readString(),parcel.readString()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(levelChoise)
+        parcel.writeString(quesChoise)
     }
 
     override fun describeContents(): Int {
