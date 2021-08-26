@@ -50,7 +50,7 @@ class QuestionI : LifecycleActivity() {
             "Tricky" -> mQuestionsList = Constants.getTrickyQuestions()
         }
 
-mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
+        mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
 
         checkPlayerState(sharedPreference)
 
@@ -248,8 +248,8 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
                     4->dOption.setBackgroundResource(R.drawable.correct_answer)
                     5->eOption.setBackgroundResource(R.drawable.correct_answer)
                     6->fOption.setBackgroundResource(R.drawable.correct_answer)
-            }
-        } else {
+                }
+            } else {
                 taskQuestion.text = question.answer
                 taskImage.setImageResource(question.answerImage)
                 taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
@@ -258,7 +258,7 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
                 } else {
                     questionBG.setImageResource(R.drawable.wrong)
                 }
-               numberOfLives = numberOfLives!!-1
+                numberOfLives = numberOfLives!!-1
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfLs", numberOfLives!!)
                 tvLives.text = numberOfLives.toString()
@@ -298,11 +298,11 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
         viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
-        bOption.isChecked = false
-        cOption.isChecked = false
-        dOption.isChecked = false
-        eOption.isChecked = false
-        fOption.isChecked = false
+            bOption.isChecked = false
+            cOption.isChecked = false
+            dOption.isChecked = false
+            eOption.isChecked = false
+            fOption.isChecked = false
             try {
                 choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
                 choiceSound!!.isLooping = false
@@ -312,24 +312,24 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
             }
             viewModel.answA()
             viewModel.answerLD.observe(this, {myAnswer = it })
-        aOption.setBackgroundResource(R.drawable.bottons_checked)
-        bOption.setBackgroundResource(R.drawable.bottons)
-        cOption.setBackgroundResource(R.drawable.bottons)
-        dOption.setBackgroundResource(R.drawable.bottons)
-        eOption.setBackgroundResource(R.drawable.bottons)
-        fOption.setBackgroundResource(R.drawable.bottons)
-    }}
+            aOption.setBackgroundResource(R.drawable.bottons_checked)
+            bOption.setBackgroundResource(R.drawable.bottons)
+            cOption.setBackgroundResource(R.drawable.bottons)
+            dOption.setBackgroundResource(R.drawable.bottons)
+            eOption.setBackgroundResource(R.drawable.bottons)
+            fOption.setBackgroundResource(R.drawable.bottons)
+        }}
 
     fun onBListener (view:View){
         viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
-        aOption.isChecked = false
-        cOption.isChecked = false
-        dOption.isChecked = false
-        eOption.isChecked = false
-        fOption.isChecked = false
+            aOption.isChecked = false
+            cOption.isChecked = false
+            dOption.isChecked = false
+            eOption.isChecked = false
+            fOption.isChecked = false
             try {
                 choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
                 choiceSound!!.isLooping = false
@@ -340,24 +340,24 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
             viewModel.answB()
             viewModel.answerLD.observe(this, {myAnswer = it })
 
-        aOption.setBackgroundResource(R.drawable.bottons)
-        bOption.setBackgroundResource(R.drawable.bottons_checked)
-        cOption.setBackgroundResource(R.drawable.bottons)
-        dOption.setBackgroundResource(R.drawable.bottons)
-        eOption.setBackgroundResource(R.drawable.bottons)
-        fOption.setBackgroundResource(R.drawable.bottons)
-    }}
+            aOption.setBackgroundResource(R.drawable.bottons)
+            bOption.setBackgroundResource(R.drawable.bottons_checked)
+            cOption.setBackgroundResource(R.drawable.bottons)
+            dOption.setBackgroundResource(R.drawable.bottons)
+            eOption.setBackgroundResource(R.drawable.bottons)
+            fOption.setBackgroundResource(R.drawable.bottons)
+        }}
 
     fun onCListener (view:View){
         viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
-        bOption.isChecked = false
-        aOption.isChecked = false
-        dOption.isChecked = false
-        eOption.isChecked = false
-        fOption.isChecked = false
+            bOption.isChecked = false
+            aOption.isChecked = false
+            dOption.isChecked = false
+            eOption.isChecked = false
+            fOption.isChecked = false
             try {
                 choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
                 choiceSound!!.isLooping = false
@@ -370,23 +370,23 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
             viewModel.answerLD.observe(this, {myAnswer = it })
 
             aOption.setBackgroundResource(R.drawable.bottons)
-        bOption.setBackgroundResource(R.drawable.bottons)
-        cOption.setBackgroundResource(R.drawable.bottons_checked)
-        dOption.setBackgroundResource(R.drawable.bottons)
-        eOption.setBackgroundResource(R.drawable.bottons)
-        fOption.setBackgroundResource(R.drawable.bottons)
-    }}
+            bOption.setBackgroundResource(R.drawable.bottons)
+            cOption.setBackgroundResource(R.drawable.bottons_checked)
+            dOption.setBackgroundResource(R.drawable.bottons)
+            eOption.setBackgroundResource(R.drawable.bottons)
+            fOption.setBackgroundResource(R.drawable.bottons)
+        }}
 
     fun onDListener (view:View){
         viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
-        bOption.isChecked = false
-        cOption.isChecked = false
-        aOption.isChecked = false
-        eOption.isChecked = false
-        fOption.isChecked = false
+            bOption.isChecked = false
+            cOption.isChecked = false
+            aOption.isChecked = false
+            eOption.isChecked = false
+            fOption.isChecked = false
             try {
                 choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
                 choiceSound!!.isLooping = false
@@ -400,11 +400,11 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
 
 
             aOption.setBackgroundResource(R.drawable.bottons)
-        bOption.setBackgroundResource(R.drawable.bottons)
-        cOption.setBackgroundResource(R.drawable.bottons)
-        dOption.setBackgroundResource(R.drawable.bottons_checked)
-        eOption.setBackgroundResource(R.drawable.bottons)
-        fOption.setBackgroundResource(R.drawable.bottons)
+            bOption.setBackgroundResource(R.drawable.bottons)
+            cOption.setBackgroundResource(R.drawable.bottons)
+            dOption.setBackgroundResource(R.drawable.bottons_checked)
+            eOption.setBackgroundResource(R.drawable.bottons)
+            fOption.setBackgroundResource(R.drawable.bottons)
         }}
 
     fun onEListener (view:View){
@@ -412,11 +412,11 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
 
 
         if (regime == 0){
-        bOption.isChecked = false
-        cOption.isChecked = false
-        dOption.isChecked = false
-        aOption.isChecked = false
-        fOption.isChecked = false
+            bOption.isChecked = false
+            cOption.isChecked = false
+            dOption.isChecked = false
+            aOption.isChecked = false
+            fOption.isChecked = false
             try {
                 choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
                 choiceSound!!.isLooping = false
@@ -428,23 +428,23 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
             viewModel.answerLD.observe(this, {myAnswer = it })
 
             aOption.setBackgroundResource(R.drawable.bottons)
-        bOption.setBackgroundResource(R.drawable.bottons)
-        cOption.setBackgroundResource(R.drawable.bottons)
-        dOption.setBackgroundResource(R.drawable.bottons)
-        eOption.setBackgroundResource(R.drawable.bottons_checked)
-        fOption.setBackgroundResource(R.drawable.bottons)
-    }}
+            bOption.setBackgroundResource(R.drawable.bottons)
+            cOption.setBackgroundResource(R.drawable.bottons)
+            dOption.setBackgroundResource(R.drawable.bottons)
+            eOption.setBackgroundResource(R.drawable.bottons_checked)
+            fOption.setBackgroundResource(R.drawable.bottons)
+        }}
 
     fun onFListener (view:View){
         viewModel.regimeLD.observe(this, {regime = it })
         if (regime == 0){
 
 
-        bOption.isChecked = false
-        cOption.isChecked = false
-        dOption.isChecked = false
-        eOption.isChecked = false
-        aOption.isChecked = false
+            bOption.isChecked = false
+            cOption.isChecked = false
+            dOption.isChecked = false
+            eOption.isChecked = false
+            aOption.isChecked = false
             try {
                 choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
                 choiceSound!!.isLooping = false
@@ -456,12 +456,12 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
             viewModel.answerLD.observe(this, {myAnswer = it })
 
             aOption.setBackgroundResource(R.drawable.bottons)
-        bOption.setBackgroundResource(R.drawable.bottons)
-        cOption.setBackgroundResource(R.drawable.bottons)
-        dOption.setBackgroundResource(R.drawable.bottons)
-        eOption.setBackgroundResource(R.drawable.bottons)
-        fOption.setBackgroundResource(R.drawable.bottons_checked)
-    }}
+            bOption.setBackgroundResource(R.drawable.bottons)
+            cOption.setBackgroundResource(R.drawable.bottons)
+            dOption.setBackgroundResource(R.drawable.bottons)
+            eOption.setBackgroundResource(R.drawable.bottons)
+            fOption.setBackgroundResource(R.drawable.bottons_checked)
+        }}
 
     private fun setQuestion() {
         val question = mQuestionsList!![mCurrentPosition]
@@ -531,10 +531,10 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
         val question = mQuestionsList!![mCurrentPosition]
         if (nextActivity.text =="Submit"){
             if (numberOfEnergy ==0){
-            val energyDialog = Dialog(this)
-            energyDialog.setContentView(R.layout.low_lives_layout)
-            energyDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
-            energyDialog.show()
+                val energyDialog = Dialog(this)
+                energyDialog.setContentView(R.layout.low_lives_layout)
+                energyDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+                energyDialog.show()
                 numberOfEnergy = 3
                 tvHints.text = numberOfEnergy.toString()
             }else{
@@ -545,19 +545,19 @@ mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
                 Snackbar.make(view, question.hint, Snackbar.LENGTH_LONG).
                 show()
             }
-            }else if (nextActivity.text =="Next"){
+        }else if (nextActivity.text =="Next"){
             if(flagForHint == 1){
-            taskImage.setImageResource(question.questionImage)
-            taskQuestion.text = question.question
-            hintBtn.text = "A"
+                taskImage.setImageResource(question.questionImage)
+                taskQuestion.text = question.question
+                hintBtn.text = "A"
                 flagForHint = 2
             }
-         else {
+            else {
                 taskImage.setImageResource(question.answerImage)
                 taskQuestion.text = question.answer
                 hintBtn.text = "Q"
                 flagForHint = 1
-        }
+            }
         }
     }
 

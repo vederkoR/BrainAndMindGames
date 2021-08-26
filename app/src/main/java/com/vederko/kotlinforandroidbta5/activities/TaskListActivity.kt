@@ -1,5 +1,6 @@
 package com.vederko.kotlinforandroidbta5.activities
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -8,6 +9,7 @@ import com.vederko.kotlinforandroidbta5.R
 import com.vederko.kotlinforandroidbta5.utilities.PLAYER
 import com.vederko.kotlinforandroidbta5.utilities.Player
 import com.vederko.kotlinforandroidbta5.utilities.RecyclerAdapter
+import kotlinx.android.synthetic.main.activity_question_i.*
 import kotlinx.android.synthetic.main.activity_task_list.*
 
 class TaskListActivity : AppCompatActivity() {
@@ -20,8 +22,14 @@ class TaskListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task_list)
 
         var myplayer = intent.getParcelableExtra<Player>(PLAYER)
+        var numberOfElms: Int
+        numberOfElms = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            8
+        } else {
+            4
+        }
 
-        layoutManager = GridLayoutManager(this,4)
+        layoutManager = GridLayoutManager(this,numberOfElms)
         recyclerView.layoutManager = layoutManager
 
         adapter = RecyclerAdapter(myplayer)
