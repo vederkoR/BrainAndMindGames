@@ -6,6 +6,94 @@ const val PLAYER = "player"
 
 object Constants {
 
+    fun getPrizeLives(): List<Prize> {
+
+        val prizeList = arrayListOf<Prize>()
+
+        val prizeLive1 = Prize(
+            id = 1,
+            prizeImage = R.drawable.lprizei,
+            livesBonus = 0,
+            energyBonus = 0,
+            pointsBonus = 1
+        )
+        prizeList.add(prizeLive1)
+
+        val prizeLive2 = Prize(
+            id = 2,
+            prizeImage = R.drawable.lprizeii,
+            livesBonus = 0,
+            energyBonus = 0,
+            pointsBonus = 3
+        )
+        prizeList.add(prizeLive2)
+
+        val prizeLive3 = Prize(
+            id = 3,
+            prizeImage = R.drawable.lprizeiii,
+            livesBonus = 0,
+            energyBonus = 0,
+            pointsBonus = 5
+        )
+        prizeList.add(prizeLive3)
+
+        val prizeLive4 = Prize(
+            id = 4,
+            prizeImage = R.drawable.lprizeiv,
+            livesBonus = 0,
+            energyBonus = 1,
+            pointsBonus = 2
+        )
+        prizeList.add(prizeLive4)
+
+        val prizeLive5 = Prize(
+            id = 5,
+            prizeImage = R.drawable.lprizevv,
+            livesBonus = 1,
+            energyBonus = 0,
+            pointsBonus = 1
+        )
+        prizeList.add(prizeLive5)
+
+        val prizeLive6 = Prize(
+            id = 6,
+            prizeImage = R.drawable.lprizevi,
+            livesBonus = 1,
+            energyBonus = 1,
+            pointsBonus = 5
+        )
+        prizeList.add(prizeLive6)
+
+        val prizeLive7 = Prize(
+            id = 7,
+            prizeImage = R.drawable.lprizevii,
+            livesBonus = 2,
+            energyBonus = 0,
+            pointsBonus = 0
+        )
+        prizeList.add(prizeLive7)
+
+        val prizeLive8 = Prize(
+            id = 8,
+            prizeImage = R.drawable.lprizeviii,
+            livesBonus = 0,
+            energyBonus = 2,
+            pointsBonus = 1
+        )
+        prizeList.add(prizeLive8)
+
+        val prizeLive9 = Prize(
+            id = 9,
+            prizeImage = R.drawable.lprizeix,
+            livesBonus = 0,
+            energyBonus = 3,
+            pointsBonus = 0
+        )
+        prizeList.add(prizeLive9)
+
+        return prizeList.shuffled()
+    }
+
     fun getEasyQuestions(): ArrayList<Question> {
 
         val questionsList = arrayListOf<Question>()

@@ -25,7 +25,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/OkBtn"
+                android:id="@+id/OkBtnEnergy"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -39,7 +39,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/lowLiveBtnNO"
+                android:id="@+id/lowEnergyBtnNO"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -57,11 +57,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="6dp"
-                app:layout_constraintBottom_toTopOf="@+id/lowLiveBtnNO"
+                app:layout_constraintBottom_toTopOf="@+id/lowEnergyBtnNO"
                 app:layout_constraintEnd_toStartOf="@+id/guideline11"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/brokenheard" />
+                app:srcCompat="@drawable/lowenergy" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline11"
@@ -71,17 +71,17 @@
                 app:layout_constraintGuide_begin="118dp" />
 
             <TextView
-                android:id="@+id/tvLowLives"
+                android:id="@+id/tvLowEnergy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/aldrich"
-                android:text="Do you wish to watch an ad to restore 2 lives and receive a bonus?"
+                android:text="Do you wish to watch a short ad to restore 5 energy points?"
                 android:textAlignment="center"
                 android:textColor="@color/lightgrey"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/OkBtn"
+                app:layout_constraintBottom_toTopOf="@+id/OkBtnEnergy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline11"
                 app:layout_constraintTop_toTopOf="parent"

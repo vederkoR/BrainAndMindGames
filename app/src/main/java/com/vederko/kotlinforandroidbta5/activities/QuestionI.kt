@@ -1,5 +1,6 @@
 package com.vederko.kotlinforandroidbta5.activities
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Configuration
@@ -15,10 +16,12 @@ import com.vederko.kotlinforandroidbta5.R
 import com.vederko.kotlinforandroidbta5.utilities.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_question_i.*
+import kotlinx.android.synthetic.main.low_energy_layout.*
 import kotlinx.android.synthetic.main.low_lives_layout.*
 import kotlinx.android.synthetic.main.low_lives_layout.OkBtn
 import kotlinx.android.synthetic.main.low_lives_layout.homeView
 import kotlinx.android.synthetic.main.menu_layout.*
+import kotlinx.android.synthetic.main.your_price_layout.*
 import java.lang.Exception
 import kotlinx.android.synthetic.main.activity_main.menuQuBtn as menuQuBtn
 
@@ -35,6 +38,10 @@ class QuestionI : LifecycleActivity() {
     var numberOfPoints: Int? = null
     var numberOfEnergy: Int? = null
     var flagForHint: Int = -1
+    var flagHintUsed: Int = -1
+    var soundTag: Int? = null
+    open var flagForPrize = -1
+    open var flagPrizeOk = -1
     private lateinit var viewModel: QuestionActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,10 +73,8 @@ class QuestionI : LifecycleActivity() {
             setQuestion()
         })
 
-        musicPlay()
-
         val sharedPreferenceMenu = SharedPreference(this)
-
+        soundTag = sharedPreferenceMenu.getValueInt("sound")
         menuQuBtn.setOnClickListener {
             onMenuClicked(
                 sharedPreferenceMenu.getValueInt("music"),
@@ -77,6 +82,7 @@ class QuestionI : LifecycleActivity() {
             )
 
         }
+        if (sharedPreferenceMenu.getValueInt("music") == -1) musicPlay()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -96,7 +102,7 @@ class QuestionI : LifecycleActivity() {
     }
 
 
-    fun stopSound(view: View) {
+    private fun stopMusic() {
         if (musicBg != null) {
             musicBg!!.stop()
             musicBg!!.release()
@@ -161,54 +167,59 @@ class QuestionI : LifecycleActivity() {
                 "Please, select your answer!",
                 Snackbar.LENGTH_LONG
             ).show()
-            try {
-                choiceSound = MediaPlayer.create(applicationContext, R.raw.error)
-                choiceSound!!.isLooping = false
-                choiceSound!!.start()
-            } catch (e: Exception) {
-
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.error)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
             }
         } else if (regime == 1) {
             if (numberOfLives == 0) {
                 lowLive(view)
             } else {
 
-            viewModel.increment()
-            viewModel.position.observe(this, { mCurrentPosition = it })
+                viewModel.increment()
+                viewModel.position.observe(this, { mCurrentPosition = it })
 
-            hintBtn.text = "?"
-            aOption.isChecked = false
-            bOption.isChecked = false
-            cOption.isChecked = false
-            dOption.isChecked = false
-            eOption.isChecked = false
-            fOption.isChecked = false
-            aOption.setBackgroundResource(R.drawable.bottons)
-            bOption.setBackgroundResource(R.drawable.bottons)
-            cOption.setBackgroundResource(R.drawable.bottons)
-            dOption.setBackgroundResource(R.drawable.bottons)
-            eOption.setBackgroundResource(R.drawable.bottons)
-            fOption.setBackgroundResource(R.drawable.bottons)
+                hintBtn.text = "?"
+                aOption.isChecked = false
+                bOption.isChecked = false
+                cOption.isChecked = false
+                dOption.isChecked = false
+                eOption.isChecked = false
+                fOption.isChecked = false
+                aOption.setBackgroundResource(R.drawable.bottons)
+                bOption.setBackgroundResource(R.drawable.bottons)
+                cOption.setBackgroundResource(R.drawable.bottons)
+                dOption.setBackgroundResource(R.drawable.bottons)
+                eOption.setBackgroundResource(R.drawable.bottons)
+                fOption.setBackgroundResource(R.drawable.bottons)
 
 
-            viewModel.regimeChangeToQu()
-            viewModel.regimeLD.observe(this, { regime = it })
-            viewModel.ansNull()
-            viewModel.answerLD.observe(this, { myAnswer = it })
-            setQuestion()
-
-            nextActivity.text = "Submit"
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                questionBG.setImageResource(R.drawable.fonlandscape)
-            } else {
-                questionBG.setImageResource(R.drawable.fon)
+                viewModel.regimeChangeToQu()
+                viewModel.regimeLD.observe(this, { regime = it })
+                viewModel.ansNull()
+                viewModel.answerLD.observe(this, { myAnswer = it })
+                setQuestion()
+                flagHintUsed = -1
+                nextActivity.text = "Submit"
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    questionBG.setImageResource(R.drawable.fonlandscape)
+                } else {
+                    questionBG.setImageResource(R.drawable.fon)
+                }
+                if (numberOfLives == 0) {
+                    lowLive(view)
+                }
             }
-            if (numberOfLives == 0) {
-                lowLive(view)
-            }
-        }
 
         } else {
+            if (numberOfLives == 0) {
+                lowLive(view)
+                    lowLive(view)} else {
             hintBtn.text = "Q"
             flagForHint = 1
             if (myAnswer == question.correctAnswer) {
@@ -224,11 +235,14 @@ class QuestionI : LifecycleActivity() {
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfPs", numberOfPoints!!)
                 tvPoints.text = numberOfPoints.toString()
-                try {
-                    choiceSound = MediaPlayer.create(applicationContext, R.raw.correct)
-                    choiceSound!!.isLooping = false
-                    choiceSound!!.start()
-                } catch (e: Exception) {
+                if (soundTag == -1) {
+                    try {
+                        if (choiceSound != null) choiceSound!!.release()
+                        choiceSound = MediaPlayer.create(applicationContext, R.raw.correct)
+                        choiceSound!!.isLooping = false
+                        choiceSound!!.start()
+                    } catch (e: Exception) {
+                    }
                 }
                 when (myAnswer) {
                     1 -> aOption.setBackgroundResource(R.drawable.correct_answer)
@@ -251,11 +265,14 @@ class QuestionI : LifecycleActivity() {
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfLs", numberOfLives!!)
                 tvLives.text = numberOfLives.toString()
-                try {
-                    choiceSound = MediaPlayer.create(applicationContext, R.raw.wrong)
-                    choiceSound!!.isLooping = false
-                    choiceSound!!.start()
-                } catch (e: Exception) {
+                if (soundTag == -1) {
+                    try {
+                        if (choiceSound != null) choiceSound!!.release()
+                        choiceSound = MediaPlayer.create(applicationContext, R.raw.wrong)
+                        choiceSound!!.isLooping = false
+                        choiceSound!!.start()
+                    } catch (e: Exception) {
+                    }
                 }
 
                 when (question.correctAnswer) {
@@ -281,6 +298,7 @@ class QuestionI : LifecycleActivity() {
 
             nextActivity.text = "Next"
         }
+        }
     }
 
     fun onAListener(view: View) {
@@ -292,13 +310,16 @@ class QuestionI : LifecycleActivity() {
             dOption.isChecked = false
             eOption.isChecked = false
             fOption.isChecked = false
-            try {
-                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
-                choiceSound!!.isLooping = false
-                choiceSound!!.start()
-            } catch (e: Exception) {
-
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
             }
+
             viewModel.answA()
             viewModel.answerLD.observe(this, { myAnswer = it })
             aOption.setBackgroundResource(R.drawable.bottons_checked)
@@ -320,12 +341,14 @@ class QuestionI : LifecycleActivity() {
             dOption.isChecked = false
             eOption.isChecked = false
             fOption.isChecked = false
-            try {
-                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
-                choiceSound!!.isLooping = false
-                choiceSound!!.start()
-            } catch (e: Exception) {
-
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
             }
             viewModel.answB()
             viewModel.answerLD.observe(this, { myAnswer = it })
@@ -349,12 +372,14 @@ class QuestionI : LifecycleActivity() {
             dOption.isChecked = false
             eOption.isChecked = false
             fOption.isChecked = false
-            try {
-                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
-                choiceSound!!.isLooping = false
-                choiceSound!!.start()
-            } catch (e: Exception) {
-
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
             }
 
             viewModel.answC()
@@ -379,12 +404,14 @@ class QuestionI : LifecycleActivity() {
             aOption.isChecked = false
             eOption.isChecked = false
             fOption.isChecked = false
-            try {
-                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
-                choiceSound!!.isLooping = false
-                choiceSound!!.start()
-            } catch (e: Exception) {
-
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
             }
 
             viewModel.answD()
@@ -410,12 +437,14 @@ class QuestionI : LifecycleActivity() {
             dOption.isChecked = false
             aOption.isChecked = false
             fOption.isChecked = false
-            try {
-                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
-                choiceSound!!.isLooping = false
-                choiceSound!!.start()
-            } catch (e: Exception) {
-
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
             }
             viewModel.answE()
             viewModel.answerLD.observe(this, { myAnswer = it })
@@ -439,13 +468,16 @@ class QuestionI : LifecycleActivity() {
             dOption.isChecked = false
             eOption.isChecked = false
             aOption.isChecked = false
-            try {
-                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
-                choiceSound!!.isLooping = false
-                choiceSound!!.start()
-            } catch (e: Exception) {
-
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
             }
+
             viewModel.answF()
             viewModel.answerLD.observe(this, { myAnswer = it })
 
@@ -525,19 +557,28 @@ class QuestionI : LifecycleActivity() {
         viewModel.position.observe(this, { mCurrentPosition = it })
         val question = mQuestionsList!![mCurrentPosition]
         if (nextActivity.text == "Submit") {
-            if (numberOfEnergy == 0) {
+            if (numberOfEnergy == 0 && flagHintUsed==-1) {
                 val energyDialog = Dialog(this)
-                energyDialog.setContentView(R.layout.low_lives_layout)
+                energyDialog.setContentView(R.layout.low_energy_layout)
                 energyDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
                 energyDialog.show()
-                numberOfEnergy = 3
-                tvHints.text = numberOfEnergy.toString()
+                energyDialog.OkBtnEnergy.setOnClickListener {
+                    numberOfEnergy = 5
+                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    sharedPreference.save("numberOfEs", numberOfEnergy!!)
+                    tvHints.text = numberOfEnergy.toString()
+                    energyDialog.dismiss()
+                }
+                energyDialog.lowEnergyBtnNO.setOnClickListener {
+                    energyDialog.dismiss()
+                }
             } else {
-                numberOfEnergy = numberOfEnergy!! - 1
+                if (flagHintUsed==-1) numberOfEnergy = numberOfEnergy!! - 1
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfEs", numberOfEnergy!!)
                 tvHints.text = numberOfEnergy.toString()
                 Snackbar.make(view, question.hint, Snackbar.LENGTH_LONG).show()
+                flagHintUsed = -2
             }
         } else if (nextActivity.text == "Next") {
             if (flagForHint == 1) {
@@ -554,7 +595,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-    private fun onMenuClicked(musics: Int, sounds: Int) {
+     fun onMenuClicked(musics: Int, sounds: Int) {
         var music = musics
         var sound = sounds
         val sharedPreferenceMenu = SharedPreference(this)
@@ -575,10 +616,12 @@ class QuestionI : LifecycleActivity() {
             if (music == -1) {
                 music = -2
                 menuDialogMain.musicView.setImageResource(R.drawable.musicminus)
+                stopMusic()
 
             } else if (music == -2) {
                 music = -1
                 menuDialogMain.musicView.setImageResource(R.drawable.musicplus)
+                musicPlay()
             }
             sharedPreferenceMenu.save("music", music)
         }
@@ -587,9 +630,11 @@ class QuestionI : LifecycleActivity() {
             if (sound == -1) {
                 sound = -2
                 menuDialogMain.soundView.setImageResource(R.drawable.soundminus)
+                soundTag = -2
             } else if (sound == -2) {
                 sound = -1
                 menuDialogMain.soundView.setImageResource(R.drawable.soundplus)
+                soundTag = -1
             }
             sharedPreferenceMenu.save("sound", sound)
         }
@@ -606,7 +651,7 @@ class QuestionI : LifecycleActivity() {
 
     }
 
-    private fun lowLive(view: View) {
+    fun lowLive(view: View) {
         Snackbar.make(
             view,
             "You don't have enough lives to continue!",
@@ -618,27 +663,170 @@ class QuestionI : LifecycleActivity() {
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         livesDialog.show()
         livesDialog.OkBtn.setOnClickListener {
-            numberOfLives = 2
+            numberOfLives = 5
+            tvLives.text = numberOfLives.toString()
+            val sharedPreference: SharedPreference = SharedPreference(this)
+            sharedPreference.save("numberOfLs", numberOfLives!!)
             tvLives.text = numberOfLives.toString()
             livesDialog.dismiss()
             prizeDialogFun()
         }
         livesDialog.lowLiveBtnNO.setOnClickListener {
-            numberOfLives = 8
-            tvLives.text = numberOfLives.toString()
             livesDialog.dismiss()
         }
-        val sharedPreference: SharedPreference = SharedPreference(this)
-        sharedPreference.save("numberOfLs", numberOfLives!!)
-        tvLives.text = numberOfLives.toString()
 
     }
-    private fun prizeDialogFun() {
+
+
+    fun prizeDialogFun() {
         val prizeDialog = Dialog(this)
         prizeDialog.setContentView(R.layout.your_price_layout)
         prizeDialog.window
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         prizeDialog.show()
-    }
+        val prizes = Constants.getPrizeLives()
+        var prizeChoise = 0
 
+        prizeDialog.OkBtnPrize.isVisible = false
+
+        prizeDialog.option1.setOnClickListener {
+
+           if (flagForPrize == -1) {
+            prizeDialog.option1.setImageResource(prizes[0].prizeImage)
+               prizeDialog.option1.animationXFade(Fade.FADE_IN)
+               prizeDialog.OkBtnPrize.isVisible = true
+               flagForPrize = 0
+               prizeChoise = 1
+               prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option2.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option2.setImageResource(prizes[1].prizeImage)
+                prizeDialog.option2.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize= 0
+                prizeChoise = 2
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option3.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option3.setImageResource(prizes[2].prizeImage)
+                prizeDialog.option3.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 3
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option4.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option4.setImageResource(prizes[3].prizeImage)
+                prizeDialog.option4.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 4
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option5.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option5.setImageResource(prizes[4].prizeImage)
+                prizeDialog.option5.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 5
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option6.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option6.setImageResource(prizes[5].prizeImage)
+                prizeDialog.option6.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 6
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option7.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option7.setImageResource(prizes[6].prizeImage)
+                prizeDialog.option7.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 7
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option8.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option8.setImageResource(prizes[7].prizeImage)
+                prizeDialog.option8.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 8
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+
+        prizeDialog.option9.setOnClickListener {
+            if (flagForPrize == -1) {
+                prizeDialog.option9.setImageResource(prizes[8].prizeImage)
+                prizeDialog.option9.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 9
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            }
+        }
+            prizeDialog.OkBtnPrize.setOnClickListener {
+
+                if (flagPrizeOk == -1) {
+                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    numberOfLives = numberOfLives!! + prizes[prizeChoise-1].livesBonus
+                    numberOfEnergy = numberOfEnergy!! + prizes[prizeChoise-1].energyBonus
+                    numberOfPoints = numberOfPoints!! + prizes[prizeChoise-1].pointsBonus
+                    sharedPreference.save("numberOfLs", numberOfLives!!)
+                    tvLives.text = numberOfLives.toString()
+
+                    sharedPreference.save("numberOfEs", numberOfEnergy!!)
+                    tvHints.text = numberOfEnergy.toString()
+
+                    sharedPreference.save("numberOfPs", numberOfPoints!!)
+                    tvPoints.text = numberOfPoints.toString()
+
+
+                    prizeDialog.option1.setImageResource(prizes[0].prizeImage)
+                    prizeDialog.option2.setImageResource(prizes[1].prizeImage)
+                    prizeDialog.option3.setImageResource(prizes[2].prizeImage)
+                    prizeDialog.option4.setImageResource(prizes[3].prizeImage)
+                    prizeDialog.option5.setImageResource(prizes[4].prizeImage)
+                    prizeDialog.option6.setImageResource(prizes[5].prizeImage)
+                    prizeDialog.option7.setImageResource(prizes[6].prizeImage)
+                    prizeDialog.option8.setImageResource(prizes[7].prizeImage)
+                    prizeDialog.option9.setImageResource(prizes[8].prizeImage)
+                    prizeDialog.tvLowLivesPrize.text = "Thank You!"
+
+                    flagPrizeOk = 0
+                } else {
+                    flagPrizeOk = -1
+                    flagForPrize = -1
+                    prizeChoise = 0
+                    prizeDialog.OkBtnPrize.isVisible = false
+                    prizeDialog.tvLowLivesPrize.text = "Select Your Prize!"
+                    prizeDialog.dismiss()
+                }
+            }
+
+
+        }
 }
