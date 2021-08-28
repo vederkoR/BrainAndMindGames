@@ -3,6 +3,7 @@ package com.vederko.kotlinforandroidbta5.utilities
 import com.vederko.kotlinforandroidbta5.R
 
 const val PLAYER = "player"
+const val AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
 
 object Constants {
 

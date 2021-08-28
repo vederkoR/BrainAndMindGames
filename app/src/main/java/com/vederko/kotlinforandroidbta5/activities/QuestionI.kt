@@ -1,15 +1,18 @@
 package com.vederko.kotlinforandroidbta5.activities
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.rommansabbir.animationx.*
 import com.vederko.kotlinforandroidbta5.R
@@ -40,8 +43,11 @@ class QuestionI : LifecycleActivity() {
     var flagForHint: Int = -1
     var flagHintUsed: Int = -1
     var soundTag: Int? = null
-    open var flagForPrize = -1
-    open var flagPrizeOk = -1
+    var musciTag: Int? = null
+    var flagForPrize = -1
+    var flagPrizeOk = -1
+    private var mIsLoading = false
+    private var mRewardedAd: RewardedAd? = null
     private lateinit var viewModel: QuestionActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +55,11 @@ class QuestionI : LifecycleActivity() {
         setContentView(R.layout.activity_question_i)
         val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
         val sharedPreference = SharedPreference(this)
+
+        MobileAds.initialize(this) {}
+        loadRewardedAd()
+
+
 
         when (playerLvlSelected?.levelChoise) {
             "Easy" -> mQuestionsList = Constants.getEasyQuestions()
@@ -75,6 +86,7 @@ class QuestionI : LifecycleActivity() {
 
         val sharedPreferenceMenu = SharedPreference(this)
         soundTag = sharedPreferenceMenu.getValueInt("sound")
+        musciTag = sharedPreferenceMenu.getValueInt("music")
         menuQuBtn.setOnClickListener {
             onMenuClicked(
                 sharedPreferenceMenu.getValueInt("music"),
@@ -82,7 +94,7 @@ class QuestionI : LifecycleActivity() {
             )
 
         }
-        if (sharedPreferenceMenu.getValueInt("music") == -1) musicPlay()
+        if (sharedPreferenceMenu.getValueInt("music") == -1) {musicPlay()}
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -121,7 +133,8 @@ class QuestionI : LifecycleActivity() {
 
     override fun onResume() {
         super.onResume()
-        musicPlay()
+        val sharedPreferenceMenu = SharedPreference(this)
+        if (sharedPreferenceMenu.getValueInt("music") == -1) {musicPlay()}
 
     }
 
@@ -563,11 +576,8 @@ class QuestionI : LifecycleActivity() {
                 energyDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
                 energyDialog.show()
                 energyDialog.OkBtnEnergy.setOnClickListener {
-                    numberOfEnergy = 5
-                    val sharedPreference: SharedPreference = SharedPreference(this)
-                    sharedPreference.save("numberOfEs", numberOfEnergy!!)
-                    tvHints.text = numberOfEnergy.toString()
                     energyDialog.dismiss()
+                    showRewardedVideoEnergy()
                 }
                 energyDialog.lowEnergyBtnNO.setOnClickListener {
                     energyDialog.dismiss()
@@ -617,11 +627,13 @@ class QuestionI : LifecycleActivity() {
                 music = -2
                 menuDialogMain.musicView.setImageResource(R.drawable.musicminus)
                 stopMusic()
+                musciTag = -2
 
             } else if (music == -2) {
                 music = -1
                 menuDialogMain.musicView.setImageResource(R.drawable.musicplus)
                 musicPlay()
+                musciTag = -1
             }
             sharedPreferenceMenu.save("music", music)
         }
@@ -663,13 +675,9 @@ class QuestionI : LifecycleActivity() {
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         livesDialog.show()
         livesDialog.OkBtn.setOnClickListener {
-            numberOfLives = 5
-            tvLives.text = numberOfLives.toString()
-            val sharedPreference: SharedPreference = SharedPreference(this)
-            sharedPreference.save("numberOfLs", numberOfLives!!)
-            tvLives.text = numberOfLives.toString()
+            stopMusic()
             livesDialog.dismiss()
-            prizeDialogFun()
+            showRewardedVideoLives()
         }
         livesDialog.lowLiveBtnNO.setOnClickListener {
             livesDialog.dismiss()
@@ -829,4 +837,103 @@ class QuestionI : LifecycleActivity() {
 
 
         }
+
+    private fun loadRewardedAd() {
+        if (mRewardedAd == null) {
+            mIsLoading = true
+            var adRequest = AdRequest.Builder().build()
+
+            RewardedAd.load(
+                this, AD_UNIT_ID, adRequest,
+                object : RewardedAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        Log.d(TAG, adError?.message)
+                        mIsLoading = false
+                        mRewardedAd = null
+                    }
+
+                    override fun onAdLoaded(rewardedAd: RewardedAd) {
+                        Log.d(TAG, "Ad was loaded.")
+                        mRewardedAd = rewardedAd
+                        mIsLoading = false
+                    }
+                }
+            )
+        }
+    }
+
+    private fun showRewardedVideoLives() {
+        if (mRewardedAd != null) {
+            mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d(TAG, "Ad was dismissed.")
+                    // Don't forget to set the ad reference to null so you
+                    // don't show the ad a second time.
+                    mRewardedAd = null
+                    loadRewardedAd()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                    // Don't forget to set the ad reference to null so you
+                    // don't show the ad a second time.
+                    if (musciTag== -1) {musicPlay()}
+                    mRewardedAd = null
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    // Called when ad is dismissed.
+                }
+            }
+
+            mRewardedAd?.show(
+                this,
+                OnUserEarnedRewardListener() {
+                        numberOfLives = 5
+                        tvLives.text = numberOfLives.toString()
+                        val sharedPreference: SharedPreference = SharedPreference(this)
+                        sharedPreference.save("numberOfLs", numberOfLives!!)
+                        tvLives.text = numberOfLives.toString()
+                        prizeDialogFun()
+                    if (musciTag== -1) {musicPlay()}
+                }
+            )
+        }
+    }
+
+    private fun showRewardedVideoEnergy() {
+        if (mRewardedAd != null) {
+            mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d(TAG, "Ad was dismissed.")
+                    // Don't forget to set the ad reference to null so you
+                    // don't show the ad a second time.
+                    mRewardedAd = null
+                    loadRewardedAd()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                    // Don't forget to set the ad reference to null so you
+                    // don't show the ad a second time.
+                    if (musciTag== -1) {musicPlay()}
+                    mRewardedAd = null
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    // Called when ad is dismissed.
+                }
+            }
+
+            mRewardedAd?.show(
+                this,
+                OnUserEarnedRewardListener() {
+                    numberOfEnergy = 5
+                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    sharedPreference.save("numberOfEs", numberOfEnergy!!)
+                    tvHints.text = numberOfEnergy.toString()
+                    if (musciTag== -1) {musicPlay()}
+                }
+            )
+        }
+    }
+
 }
