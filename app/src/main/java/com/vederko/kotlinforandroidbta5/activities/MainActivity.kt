@@ -41,6 +41,8 @@ class MainActivity : LifecycleActivity() {
             firstTaskIntent.putExtra(PLAYER, myplayer)
             startActivity(firstTaskIntent)
         } else {
+            val testact = Intent(this, PrizeActivity::class.java)
+            startActivity(testact)
 
             Toast.makeText(this, "Please, select a difficulty level", Toast.LENGTH_LONG).
                     show()
@@ -109,6 +111,8 @@ class MainActivity : LifecycleActivity() {
         menuDialogMain.window
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         menuDialogMain.show()
+        menuDialogMain.setCanceledOnTouchOutside(false)
+        menuDialogMain.setCancelable(false)
         if (music == -1) {
             menuDialogMain.musicView.setImageResource(R.drawable.musicplus)
         } else menuDialogMain.musicView.setImageResource(R.drawable.musicminus)

@@ -11,12 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinForAndroidBtA5">
-
-
+        <activity
+            android:name=".activities.PrizeActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2503936310063972~6180089609"/>
+            android:value="ca-app-pub-2503936310063972~6180089609" />
 
         <activity android:name=".activities.TaskListActivity" />
         <activity android:name=".activities.LifecycleActivity" />

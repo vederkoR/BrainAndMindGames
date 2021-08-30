@@ -3,16 +3,21 @@ package com.vederko.kotlinforandroidbta5.activities
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.Gravity.CENTER
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.common.config.GservicesValue.value
 import com.google.android.material.snackbar.Snackbar
 import com.rommansabbir.animationx.*
 import com.vederko.kotlinforandroidbta5.R
@@ -575,7 +580,10 @@ class QuestionI : LifecycleActivity() {
                 energyDialog.setContentView(R.layout.low_energy_layout)
                 energyDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
                 energyDialog.show()
+                energyDialog.setCanceledOnTouchOutside(false)
+                energyDialog.setCancelable(false)
                 energyDialog.OkBtnEnergy.setOnClickListener {
+                    stopMusic()
                     energyDialog.dismiss()
                     showRewardedVideoEnergy()
                 }
@@ -587,7 +595,16 @@ class QuestionI : LifecycleActivity() {
                 val sharedPreference: SharedPreference = SharedPreference(this)
                 sharedPreference.save("numberOfEs", numberOfEnergy!!)
                 tvHints.text = numberOfEnergy.toString()
-                Snackbar.make(view, question.hint, Snackbar.LENGTH_LONG).show()
+                var snack = Snackbar.make(view, question.hint, 10000)
+                snack.setActionTextColor(Color.BLUE)
+                val snackBarView = snack.view
+                snackBarView.setBackgroundColor(Color.BLACK)
+                val textView = snackBarView
+                    .findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+                textView.setTextColor(Color.WHITE)
+                textView.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                snack.show()
+
                 flagHintUsed = -2
             }
         } else if (nextActivity.text == "Next") {
@@ -614,6 +631,8 @@ class QuestionI : LifecycleActivity() {
         menuDialogMain.window
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         menuDialogMain.show()
+         menuDialogMain.setCanceledOnTouchOutside(false)
+         menuDialogMain.setCancelable(false)
         if (music == -1) {
             menuDialogMain.musicView.setImageResource(R.drawable.musicplus)
         } else menuDialogMain.musicView.setImageResource(R.drawable.musicminus)
@@ -674,6 +693,8 @@ class QuestionI : LifecycleActivity() {
         livesDialog.window
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         livesDialog.show()
+        livesDialog.setCanceledOnTouchOutside(false)
+        livesDialog.setCancelable(false)
         livesDialog.OkBtn.setOnClickListener {
             stopMusic()
             livesDialog.dismiss()
@@ -692,6 +713,8 @@ class QuestionI : LifecycleActivity() {
         prizeDialog.window
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         prizeDialog.show()
+        prizeDialog.setCanceledOnTouchOutside(false)
+        prizeDialog.setCancelable(false)
         val prizes = Constants.getPrizeLives()
         var prizeChoise = 0
 
@@ -847,7 +870,7 @@ class QuestionI : LifecycleActivity() {
                 this, AD_UNIT_ID, adRequest,
                 object : RewardedAdLoadCallback() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
-                        Log.d(TAG, adError?.message)
+                        Log.d(TAG, adError.message)
                         mIsLoading = false
                         mRewardedAd = null
                     }
@@ -887,7 +910,7 @@ class QuestionI : LifecycleActivity() {
 
             mRewardedAd?.show(
                 this,
-                OnUserEarnedRewardListener() {
+                OnUserEarnedRewardListener {
                         numberOfLives = 5
                         tvLives.text = numberOfLives.toString()
                         val sharedPreference: SharedPreference = SharedPreference(this)
@@ -925,7 +948,7 @@ class QuestionI : LifecycleActivity() {
 
             mRewardedAd?.show(
                 this,
-                OnUserEarnedRewardListener() {
+                OnUserEarnedRewardListener {
                     numberOfEnergy = 5
                     val sharedPreference: SharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfEs", numberOfEnergy!!)
