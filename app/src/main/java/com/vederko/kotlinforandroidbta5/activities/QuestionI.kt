@@ -71,6 +71,7 @@ class QuestionI : LifecycleActivity() {
             "Normal" -> mQuestionsList = Constants.getNormalQuestions()
             "Hard" -> mQuestionsList = Constants.getHardQuestions()
             "Tricky" -> mQuestionsList = Constants.getTrickyQuestions()
+            "Impossible" -> TODO()
         }
 
         mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
@@ -100,6 +101,12 @@ class QuestionI : LifecycleActivity() {
 
         }
         if (sharedPreferenceMenu.getValueInt("music") == -1) {musicPlay()}
+    }
+
+    override fun onBackPressed() {
+        val home = Intent(this, MainActivity::class.java)
+        startActivity(home)
+        finish()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -177,6 +184,7 @@ class QuestionI : LifecycleActivity() {
     }
 
     fun nextTaskActivity(view: View) {
+
         viewModel.regimeLD.observe(this, { regime = it })
         val question = mQuestionsList!![mCurrentPosition]
         if (myAnswer == 0) {
@@ -195,127 +203,136 @@ class QuestionI : LifecycleActivity() {
                 }
             }
         } else if (regime == 1) {
-            if (numberOfLives == 0) {
-                lowLive(view)
-            } else {
-
-                viewModel.increment()
-                viewModel.position.observe(this, { mCurrentPosition = it })
-
-                hintBtn.text = "?"
-                aOption.isChecked = false
-                bOption.isChecked = false
-                cOption.isChecked = false
-                dOption.isChecked = false
-                eOption.isChecked = false
-                fOption.isChecked = false
-                aOption.setBackgroundResource(R.drawable.bottons)
-                bOption.setBackgroundResource(R.drawable.bottons)
-                cOption.setBackgroundResource(R.drawable.bottons)
-                dOption.setBackgroundResource(R.drawable.bottons)
-                eOption.setBackgroundResource(R.drawable.bottons)
-                fOption.setBackgroundResource(R.drawable.bottons)
-
-
-                viewModel.regimeChangeToQu()
-                viewModel.regimeLD.observe(this, { regime = it })
-                viewModel.ansNull()
-                viewModel.answerLD.observe(this, { myAnswer = it })
-                setQuestion()
-                flagHintUsed = -1
-                nextActivity.text = "Submit"
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    questionBG.setImageResource(R.drawable.fonlandscape)
-                } else {
-                    questionBG.setImageResource(R.drawable.fon)
-                }
+            if (mCurrentPosition+1 == mQuestionsList?.size){
+                val finishAct = Intent(this, PrizeActivity::class.java)
+                val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
+                finishAct.putExtra(PLAYER, playerLvlSelected)
+                startActivity(finishAct)
+            }
+            else {
                 if (numberOfLives == 0) {
                     lowLive(view)
+                } else {
+
+                    viewModel.increment()
+                    viewModel.position.observe(this, { mCurrentPosition = it })
+
+                    hintBtn.text = "?"
+                    aOption.isChecked = false
+                    bOption.isChecked = false
+                    cOption.isChecked = false
+                    dOption.isChecked = false
+                    eOption.isChecked = false
+                    fOption.isChecked = false
+                    aOption.setBackgroundResource(R.drawable.bottons)
+                    bOption.setBackgroundResource(R.drawable.bottons)
+                    cOption.setBackgroundResource(R.drawable.bottons)
+                    dOption.setBackgroundResource(R.drawable.bottons)
+                    eOption.setBackgroundResource(R.drawable.bottons)
+                    fOption.setBackgroundResource(R.drawable.bottons)
+
+
+                    viewModel.regimeChangeToQu()
+                    viewModel.regimeLD.observe(this, { regime = it })
+                    viewModel.ansNull()
+                    viewModel.answerLD.observe(this, { myAnswer = it })
+                    setQuestion()
+                    flagHintUsed = -1
+                    nextActivity.text = "Submit"
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        questionBG.setImageResource(R.drawable.fonlandscape)
+                    } else {
+                        questionBG.setImageResource(R.drawable.fon)
+                    }
+                    if (numberOfLives == 0) {
+                        lowLive(view)
+                    }
                 }
             }
 
         } else {
             if (numberOfLives == 0) {
                 lowLive(view)
-                    lowLive(view)} else {
-            hintBtn.text = "Q"
-            flagForHint = 1
-            if (myAnswer == question.correctAnswer) {
-                taskQuestion.text = question.answer
-                taskImage.setImageResource(question.answerImage)
-                taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    questionBG.setImageResource(R.drawable.correctland)
-                } else {
-                    questionBG.setImageResource(R.drawable.correct)
-                }
-                numberOfPoints = numberOfPoints!! + 5
-                val sharedPreference: SharedPreference = SharedPreference(this)
-                sharedPreference.save("numberOfPs", numberOfPoints!!)
-                tvPoints.text = numberOfPoints.toString()
-                if (soundTag == -1) {
-                    try {
-                        if (choiceSound != null) choiceSound!!.release()
-                        choiceSound = MediaPlayer.create(applicationContext, R.raw.correct)
-                        choiceSound!!.isLooping = false
-                        choiceSound!!.start()
-                    } catch (e: Exception) {
-                    }
-                }
-                when (myAnswer) {
-                    1 -> aOption.setBackgroundResource(R.drawable.correct_answer)
-                    2 -> bOption.setBackgroundResource(R.drawable.correct_answer)
-                    3 -> cOption.setBackgroundResource(R.drawable.correct_answer)
-                    4 -> dOption.setBackgroundResource(R.drawable.correct_answer)
-                    5 -> eOption.setBackgroundResource(R.drawable.correct_answer)
-                    6 -> fOption.setBackgroundResource(R.drawable.correct_answer)
-                }
+                lowLive(view)
             } else {
-                taskQuestion.text = question.answer
-                taskImage.setImageResource(question.answerImage)
-                taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    questionBG.setImageResource(R.drawable.wrongland)
+                hintBtn.text = "Q"
+                flagForHint = 1
+                if (myAnswer == question.correctAnswer) {
+                    taskQuestion.text = question.answer
+                    taskImage.setImageResource(question.answerImage)
+                    taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        questionBG.setImageResource(R.drawable.correctland)
+                    } else {
+                        questionBG.setImageResource(R.drawable.correct)
+                    }
+                    numberOfPoints = numberOfPoints!! + 5
+                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    sharedPreference.save("numberOfPs", numberOfPoints!!)
+                    tvPoints.text = numberOfPoints.toString()
+                    if (soundTag == -1) {
+                        try {
+                            if (choiceSound != null) choiceSound!!.release()
+                            choiceSound = MediaPlayer.create(applicationContext, R.raw.correct)
+                            choiceSound!!.isLooping = false
+                            choiceSound!!.start()
+                        } catch (e: Exception) {
+                        }
+                    }
+                    when (myAnswer) {
+                        1 -> aOption.setBackgroundResource(R.drawable.correct_answer)
+                        2 -> bOption.setBackgroundResource(R.drawable.correct_answer)
+                        3 -> cOption.setBackgroundResource(R.drawable.correct_answer)
+                        4 -> dOption.setBackgroundResource(R.drawable.correct_answer)
+                        5 -> eOption.setBackgroundResource(R.drawable.correct_answer)
+                        6 -> fOption.setBackgroundResource(R.drawable.correct_answer)
+                    }
                 } else {
-                    questionBG.setImageResource(R.drawable.wrong)
-                }
-                numberOfLives = numberOfLives!! - 1
-                val sharedPreference: SharedPreference = SharedPreference(this)
-                sharedPreference.save("numberOfLs", numberOfLives!!)
-                tvLives.text = numberOfLives.toString()
-                if (soundTag == -1) {
-                    try {
-                        if (choiceSound != null) choiceSound!!.release()
-                        choiceSound = MediaPlayer.create(applicationContext, R.raw.wrong)
-                        choiceSound!!.isLooping = false
-                        choiceSound!!.start()
-                    } catch (e: Exception) {
+                    taskQuestion.text = question.answer
+                    taskImage.setImageResource(question.answerImage)
+                    taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        questionBG.setImageResource(R.drawable.wrongland)
+                    } else {
+                        questionBG.setImageResource(R.drawable.wrong)
+                    }
+                    numberOfLives = numberOfLives!! - 1
+                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    sharedPreference.save("numberOfLs", numberOfLives!!)
+                    tvLives.text = numberOfLives.toString()
+                    if (soundTag == -1) {
+                        try {
+                            if (choiceSound != null) choiceSound!!.release()
+                            choiceSound = MediaPlayer.create(applicationContext, R.raw.wrong)
+                            choiceSound!!.isLooping = false
+                            choiceSound!!.start()
+                        } catch (e: Exception) {
+                        }
+                    }
+
+                    when (question.correctAnswer) {
+                        1 -> aOption.setBackgroundResource(R.drawable.correct_answer)
+                        2 -> bOption.setBackgroundResource(R.drawable.correct_answer)
+                        3 -> cOption.setBackgroundResource(R.drawable.correct_answer)
+                        4 -> dOption.setBackgroundResource(R.drawable.correct_answer)
+                        5 -> eOption.setBackgroundResource(R.drawable.correct_answer)
+                        6 -> fOption.setBackgroundResource(R.drawable.correct_answer)
+                    }
+                    when (myAnswer) {
+                        1 -> aOption.setBackgroundResource(R.drawable.wrong_answer)
+                        2 -> bOption.setBackgroundResource(R.drawable.wrong_answer)
+                        3 -> cOption.setBackgroundResource(R.drawable.wrong_answer)
+                        4 -> dOption.setBackgroundResource(R.drawable.wrong_answer)
+                        5 -> eOption.setBackgroundResource(R.drawable.wrong_answer)
+                        6 -> fOption.setBackgroundResource(R.drawable.wrong_answer)
                     }
                 }
+                viewModel.regimeChangeToAns()
+                viewModel.regimeLD.observe(this, { regime = it })
 
-                when (question.correctAnswer) {
-                    1 -> aOption.setBackgroundResource(R.drawable.correct_answer)
-                    2 -> bOption.setBackgroundResource(R.drawable.correct_answer)
-                    3 -> cOption.setBackgroundResource(R.drawable.correct_answer)
-                    4 -> dOption.setBackgroundResource(R.drawable.correct_answer)
-                    5 -> eOption.setBackgroundResource(R.drawable.correct_answer)
-                    6 -> fOption.setBackgroundResource(R.drawable.correct_answer)
-                }
-                when (myAnswer) {
-                    1 -> aOption.setBackgroundResource(R.drawable.wrong_answer)
-                    2 -> bOption.setBackgroundResource(R.drawable.wrong_answer)
-                    3 -> cOption.setBackgroundResource(R.drawable.wrong_answer)
-                    4 -> dOption.setBackgroundResource(R.drawable.wrong_answer)
-                    5 -> eOption.setBackgroundResource(R.drawable.wrong_answer)
-                    6 -> fOption.setBackgroundResource(R.drawable.wrong_answer)
-                }
+
+                nextActivity.text = "Next"
             }
-            viewModel.regimeChangeToAns()
-            viewModel.regimeLD.observe(this, { regime = it })
-
-
-            nextActivity.text = "Next"
-        }
         }
     }
 
@@ -622,7 +639,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-     fun onMenuClicked(musics: Int, sounds: Int) {
+    fun onMenuClicked(musics: Int, sounds: Int) {
         var music = musics
         var sound = sounds
         val sharedPreferenceMenu = SharedPreference(this)
@@ -631,8 +648,8 @@ class QuestionI : LifecycleActivity() {
         menuDialogMain.window
             ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
         menuDialogMain.show()
-         menuDialogMain.setCanceledOnTouchOutside(false)
-         menuDialogMain.setCancelable(false)
+        menuDialogMain.setCanceledOnTouchOutside(false)
+        menuDialogMain.setCancelable(false)
         if (music == -1) {
             menuDialogMain.musicView.setImageResource(R.drawable.musicplus)
         } else menuDialogMain.musicView.setImageResource(R.drawable.musicminus)
@@ -722,13 +739,13 @@ class QuestionI : LifecycleActivity() {
 
         prizeDialog.option1.setOnClickListener {
 
-           if (flagForPrize == -1) {
-            prizeDialog.option1.setImageResource(prizes[0].prizeImage)
-               prizeDialog.option1.animationXFade(Fade.FADE_IN)
-               prizeDialog.OkBtnPrize.isVisible = true
-               flagForPrize = 0
-               prizeChoise = 1
-               prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+            if (flagForPrize == -1) {
+                prizeDialog.option1.setImageResource(prizes[0].prizeImage)
+                prizeDialog.option1.animationXFade(Fade.FADE_IN)
+                prizeDialog.OkBtnPrize.isVisible = true
+                flagForPrize = 0
+                prizeChoise = 1
+                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
             }
         }
 
@@ -819,47 +836,47 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
             }
         }
-            prizeDialog.OkBtnPrize.setOnClickListener {
+        prizeDialog.OkBtnPrize.setOnClickListener {
 
-                if (flagPrizeOk == -1) {
-                    val sharedPreference: SharedPreference = SharedPreference(this)
-                    numberOfLives = numberOfLives!! + prizes[prizeChoise-1].livesBonus
-                    numberOfEnergy = numberOfEnergy!! + prizes[prizeChoise-1].energyBonus
-                    numberOfPoints = numberOfPoints!! + prizes[prizeChoise-1].pointsBonus
-                    sharedPreference.save("numberOfLs", numberOfLives!!)
-                    tvLives.text = numberOfLives.toString()
+            if (flagPrizeOk == -1) {
+                val sharedPreference: SharedPreference = SharedPreference(this)
+                numberOfLives = numberOfLives!! + prizes[prizeChoise-1].livesBonus
+                numberOfEnergy = numberOfEnergy!! + prizes[prizeChoise-1].energyBonus
+                numberOfPoints = numberOfPoints!! + prizes[prizeChoise-1].pointsBonus
+                sharedPreference.save("numberOfLs", numberOfLives!!)
+                tvLives.text = numberOfLives.toString()
 
-                    sharedPreference.save("numberOfEs", numberOfEnergy!!)
-                    tvHints.text = numberOfEnergy.toString()
+                sharedPreference.save("numberOfEs", numberOfEnergy!!)
+                tvHints.text = numberOfEnergy.toString()
 
-                    sharedPreference.save("numberOfPs", numberOfPoints!!)
-                    tvPoints.text = numberOfPoints.toString()
+                sharedPreference.save("numberOfPs", numberOfPoints!!)
+                tvPoints.text = numberOfPoints.toString()
 
 
-                    prizeDialog.option1.setImageResource(prizes[0].prizeImage)
-                    prizeDialog.option2.setImageResource(prizes[1].prizeImage)
-                    prizeDialog.option3.setImageResource(prizes[2].prizeImage)
-                    prizeDialog.option4.setImageResource(prizes[3].prizeImage)
-                    prizeDialog.option5.setImageResource(prizes[4].prizeImage)
-                    prizeDialog.option6.setImageResource(prizes[5].prizeImage)
-                    prizeDialog.option7.setImageResource(prizes[6].prizeImage)
-                    prizeDialog.option8.setImageResource(prizes[7].prizeImage)
-                    prizeDialog.option9.setImageResource(prizes[8].prizeImage)
-                    prizeDialog.tvLowLivesPrize.text = "Thank You!"
+                prizeDialog.option1.setImageResource(prizes[0].prizeImage)
+                prizeDialog.option2.setImageResource(prizes[1].prizeImage)
+                prizeDialog.option3.setImageResource(prizes[2].prizeImage)
+                prizeDialog.option4.setImageResource(prizes[3].prizeImage)
+                prizeDialog.option5.setImageResource(prizes[4].prizeImage)
+                prizeDialog.option6.setImageResource(prizes[5].prizeImage)
+                prizeDialog.option7.setImageResource(prizes[6].prizeImage)
+                prizeDialog.option8.setImageResource(prizes[7].prizeImage)
+                prizeDialog.option9.setImageResource(prizes[8].prizeImage)
+                prizeDialog.tvLowLivesPrize.text = "Thank You!"
 
-                    flagPrizeOk = 0
-                } else {
-                    flagPrizeOk = -1
-                    flagForPrize = -1
-                    prizeChoise = 0
-                    prizeDialog.OkBtnPrize.isVisible = false
-                    prizeDialog.tvLowLivesPrize.text = "Select Your Prize!"
-                    prizeDialog.dismiss()
-                }
+                flagPrizeOk = 0
+            } else {
+                flagPrizeOk = -1
+                flagForPrize = -1
+                prizeChoise = 0
+                prizeDialog.OkBtnPrize.isVisible = false
+                prizeDialog.tvLowLivesPrize.text = "Select Your Prize!"
+                prizeDialog.dismiss()
             }
-
-
         }
+
+
+    }
 
     private fun loadRewardedAd() {
         if (mRewardedAd == null) {
@@ -911,12 +928,12 @@ class QuestionI : LifecycleActivity() {
             mRewardedAd?.show(
                 this,
                 OnUserEarnedRewardListener {
-                        numberOfLives = 5
-                        tvLives.text = numberOfLives.toString()
-                        val sharedPreference: SharedPreference = SharedPreference(this)
-                        sharedPreference.save("numberOfLs", numberOfLives!!)
-                        tvLives.text = numberOfLives.toString()
-                        prizeDialogFun()
+                    numberOfLives = 5
+                    tvLives.text = numberOfLives.toString()
+                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    sharedPreference.save("numberOfLs", numberOfLives!!)
+                    tvLives.text = numberOfLives.toString()
+                    prizeDialogFun()
                     if (musciTag== -1) {musicPlay()}
                 }
             )

@@ -1,5 +1,6 @@
 package com.vederko.kotlinforandroidbta5.activities
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,5 +33,20 @@ class TaskListActivity : AppCompatActivity() {
 
         adapter = RecyclerAdapter(myplayer)
         recyclerView.adapter = adapter
+
+        backToHomeListBtn.setOnClickListener{
+            val home = Intent(this, MainActivity::class.java)
+            startActivity(home)
+            finish()
+        }
+
     }
+
+
+override fun onBackPressed() {
+    val home = Intent(this, MainActivity::class.java)
+    startActivity(home)
+    finish()
+}
+
 }
