@@ -1,21 +1,32 @@
 package com.vederko.kotlinforandroidbta5.activities
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.vederko.kotlinforandroidbta5.R
 import com.vederko.kotlinforandroidbta5.utilities.PLAYER
 import com.vederko.kotlinforandroidbta5.utilities.Player
 import com.vederko.kotlinforandroidbta5.utilities.SharedPreference
+import kotlinx.android.synthetic.main.about_layout.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.low_lives_layout.*
 import kotlinx.android.synthetic.main.menu_layout.*
+import kotlinx.android.synthetic.main.menu_layout.OkBtn
+import kotlinx.android.synthetic.main.menu_layout.homeView
+import java.lang.Exception
 
 
 class MainActivity : LifecycleActivity() {
-    var myplayer = Player("")
+    private var myplayer = Player("")
+    var soundTag: Int? = null
+    var choiceSound: MediaPlayer? = null
 
 
 
@@ -24,8 +35,15 @@ class MainActivity : LifecycleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedPreferenceMenu= SharedPreference(this@MainActivity)
 
+        val ua = WebView(this).settings.userAgentString
+        if ("Mobile" !in ua) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+
+
+        val sharedPreferenceMenu= SharedPreference(this@MainActivity)
+        soundTag = sharedPreferenceMenu.getValueInt("sound")
 
         menuQuBtn.setOnClickListener {
             onMenuClicked(sharedPreferenceMenu.getValueInt("music"),
@@ -35,16 +53,25 @@ class MainActivity : LifecycleActivity() {
 
     }
 
-    fun taskActivity(view: View) {
+    fun taskActivity(view:View) {
         if (myplayer.levelChoise != "") {
             val firstTaskIntent = Intent(this, TaskListActivity::class.java)
             firstTaskIntent.putExtra(PLAYER, myplayer)
             startActivity(firstTaskIntent)
         } else {
-            val testact = Intent(this, PrizeActivity::class.java)
-            startActivity(testact)
 
-            Toast.makeText(this, "Please, select a difficulty level", Toast.LENGTH_LONG).
+            if (soundTag == -1) {
+                try {
+                    if (choiceSound != null) choiceSound!!.release()
+                    choiceSound = MediaPlayer.create(applicationContext, R.raw.error)
+                    choiceSound!!.isLooping = false
+                    choiceSound!!.start()
+                } catch (e: Exception) {
+                }
+            }
+
+            Toast.makeText(this,
+                "Please, select a difficulty level...", Toast.LENGTH_LONG).
                     show()
         }
 
@@ -52,60 +79,117 @@ class MainActivity : LifecycleActivity() {
 
     fun mainActivityEasyBtn (view:View){
 
+        if (soundTag == -1) {
+            try {
+                if (choiceSound != null) choiceSound!!.release()
+                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                choiceSound!!.isLooping = false
+                choiceSound!!.start()
+            } catch (e: Exception) {
+            }
+        }
+
         normalLevelBtn.isChecked = false
         hardLevelBtn.isChecked = false
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (easyLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        if (!easyLevelBtn.isChecked) myplayer.levelChoise = ""
         else myplayer.levelChoise = "Easy"
     }
 
     fun mainActivityNormalBtn (view:View){
+
+        if (soundTag == -1) {
+            try {
+                if (choiceSound != null) choiceSound!!.release()
+                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                choiceSound!!.isLooping = false
+                choiceSound!!.start()
+            } catch (e: Exception) {
+            }
+        }
+
         easyLevelBtn.isChecked = false
         hardLevelBtn.isChecked = false
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (normalLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        if (!normalLevelBtn.isChecked) myplayer.levelChoise = ""
         else myplayer.levelChoise = "Normal"
     }
 
     fun mainActivityHardBtn (view:View){
+
+
+        if (soundTag == -1) {
+            try {
+                if (choiceSound != null) choiceSound!!.release()
+                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                choiceSound!!.isLooping = false
+                choiceSound!!.start()
+            } catch (e: Exception) {
+            }
+        }
+
+
         normalLevelBtn.isChecked = false
         easyLevelBtn.isChecked = false
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (hardLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        if (!hardLevelBtn.isChecked) myplayer.levelChoise = ""
         else myplayer.levelChoise = "Hard"
     }
 
     fun mainActivityTrickyBtn (view:View){
+
+        if (soundTag == -1) {
+            try {
+                if (choiceSound != null) choiceSound!!.release()
+                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                choiceSound!!.isLooping = false
+                choiceSound!!.start()
+            } catch (e: Exception) {
+            }
+        }
+
+
         normalLevelBtn.isChecked = false
         hardLevelBtn.isChecked = false
         easyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (trickyLevelBtn.isChecked == false) myplayer.levelChoise = ""
+        if (!trickyLevelBtn.isChecked) myplayer.levelChoise = ""
         else myplayer.levelChoise = "Tricky"
     }
 
     fun mainActivityimpBtn (view:View){
 
+        if (soundTag == -1) {
+            try {
+                if (choiceSound != null) choiceSound!!.release()
+                choiceSound = MediaPlayer.create(applicationContext, R.raw.clickchoise)
+                choiceSound!!.isLooping = false
+                choiceSound!!.start()
+            } catch (e: Exception) {
+            }
+        }
+
+
         normalLevelBtn.isChecked = false
         hardLevelBtn.isChecked = false
         trickyLevelBtn.isChecked = false
         easyLevelBtn.isChecked = false
 
-        if (impBtn.isChecked == false) myplayer.levelChoise = ""
+        if (!impBtn.isChecked) myplayer.levelChoise = ""
         else myplayer.levelChoise = "Impossible"
     }
 
     private fun onMenuClicked(musics: Int, sounds: Int) {
         var music = musics
         var sound = sounds
-        val sharedPreferenceMenu= SharedPreference(this@MainActivity)
+        val sharedPreferenceMenu = SharedPreference(this@MainActivity)
         val menuDialogMain = Dialog(this)
         menuDialogMain.setContentView(R.layout.menu_layout)
         menuDialogMain.window
@@ -137,9 +221,11 @@ class MainActivity : LifecycleActivity() {
             if (sound == -1) {
                 sound = -2
                 menuDialogMain.soundView.setImageResource(R.drawable.soundminus)
+                soundTag = -2
             } else if (sound == -2) {
                 sound = -1
                 menuDialogMain.soundView.setImageResource(R.drawable.soundplus)
+                soundTag = -1
             }
             sharedPreferenceMenu.save("sound", sound)
         }
@@ -154,6 +240,21 @@ class MainActivity : LifecycleActivity() {
             menuDialogMain.dismiss()
         }
 
+        menuDialogMain.aboutView.setOnClickListener {
+            menuDialogMain.dismiss()
+            val aboutDialog = Dialog(this)
+            aboutDialog.setContentView(R.layout.about_layout)
+            aboutDialog.window
+                ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+            aboutDialog.show()
+            aboutDialog.aboutTextView.text =
+                getString(R.string.about)
+            aboutDialog.setCanceledOnTouchOutside(false)
+            aboutDialog.setCancelable(false)
+            aboutDialog.OkBtnAbout.setOnClickListener {
+                aboutDialog.dismiss()
+            }
+        }
     }
 
 }

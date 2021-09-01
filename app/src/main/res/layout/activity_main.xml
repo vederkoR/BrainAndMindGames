@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/main_levels_dist_down"
-                android:background="@drawable/botton_toggles"
+                android:background="@drawable/botton_toggles_tricky"
                 android:fontFamily="@font/aldrich"
                 android:onClick="mainActivityTrickyBtn"
                 android:soundEffectsEnabled="false"

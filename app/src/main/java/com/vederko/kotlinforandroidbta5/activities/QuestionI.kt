@@ -2,14 +2,14 @@ package com.vederko.kotlinforandroidbta5.activities
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.Gravity.CENTER
 import android.view.View
+import android.webkit.WebView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -17,11 +17,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.google.android.gms.common.config.GservicesValue.value
 import com.google.android.material.snackbar.Snackbar
 import com.rommansabbir.animationx.*
 import com.vederko.kotlinforandroidbta5.R
 import com.vederko.kotlinforandroidbta5.utilities.*
+import kotlinx.android.synthetic.main.about_layout.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_question_i.*
 import kotlinx.android.synthetic.main.low_energy_layout.*
@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.low_lives_layout.homeView
 import kotlinx.android.synthetic.main.menu_layout.*
 import kotlinx.android.synthetic.main.your_price_layout.*
 import java.lang.Exception
+import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.activity_main.menuQuBtn as menuQuBtn
 
 
@@ -60,6 +61,11 @@ class QuestionI : LifecycleActivity() {
         setContentView(R.layout.activity_question_i)
         val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
         val sharedPreference = SharedPreference(this)
+
+        val ua = WebView(this).settings.userAgentString
+        if ("Mobile" !in ua) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
 
         MobileAds.initialize(this) {}
         loadRewardedAd()
@@ -239,10 +245,17 @@ class QuestionI : LifecycleActivity() {
                     setQuestion()
                     flagHintUsed = -1
                     nextActivity.text = "Submit"
-                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        questionBG.setImageResource(R.drawable.fonlandscape)
+
+                    val ua = WebView(this).settings.userAgentString
+
+                    if ("Mobile" in ua) {
+                        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            questionBG.setImageResource(R.drawable.fonlandscape)
+                        } else {
+                            questionBG.setImageResource(R.drawable.fon)
+                        }
                     } else {
-                        questionBG.setImageResource(R.drawable.fon)
+                        questionBG.setImageResource(R.drawable.fontabletnornal)
                     }
                     if (numberOfLives == 0) {
                         lowLive(view)
@@ -261,10 +274,17 @@ class QuestionI : LifecycleActivity() {
                     taskQuestion.text = question.answer
                     taskImage.setImageResource(question.answerImage)
                     taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
-                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        questionBG.setImageResource(R.drawable.correctland)
-                    } else {
-                        questionBG.setImageResource(R.drawable.correct)
+
+                    val ua = WebView(this).settings.userAgentString
+
+                    if ("Mobile" in ua){
+                        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            questionBG.setImageResource(R.drawable.correctland)
+                        } else {
+                            questionBG.setImageResource(R.drawable.correct)
+                        }
+                    }else {
+                        questionBG.setImageResource(R.drawable.fontabletcorrect)
                     }
                     numberOfPoints = numberOfPoints!! + 5
                     val sharedPreference: SharedPreference = SharedPreference(this)
@@ -291,11 +311,19 @@ class QuestionI : LifecycleActivity() {
                     taskQuestion.text = question.answer
                     taskImage.setImageResource(question.answerImage)
                     taskImage.animationXAttention(Attention.ATTENTION_TA_DA)
-                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        questionBG.setImageResource(R.drawable.wrongland)
-                    } else {
-                        questionBG.setImageResource(R.drawable.wrong)
+
+                    val ua = WebView(this).settings.userAgentString
+                    if ("Mobile" in ua){
+                        if (resources.configuration.orientation == Configuration.
+                            ORIENTATION_LANDSCAPE) {
+                            questionBG.setImageResource(R.drawable.wrongland)
+                        } else {
+                            questionBG.setImageResource(R.drawable.wrong)
+                        }
+                    }else {
+                        questionBG.setImageResource(R.drawable.fontabletwrong)
                     }
+
                     numberOfLives = numberOfLives!! - 1
                     val sharedPreference: SharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfLs", numberOfLives!!)
@@ -564,11 +592,20 @@ class QuestionI : LifecycleActivity() {
                 6 -> fOption.setBackgroundResource(R.drawable.correct_answer)
             }
             if (myAnswer == question.correctAnswer) {
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    questionBG.setImageResource(R.drawable.correctland)
-                } else {
-                    questionBG.setImageResource(R.drawable.correct)
+
+                val ua = WebView(this).settings.userAgentString
+                if ("Mobile" in ua){
+                    if (resources.configuration.orientation == Configuration
+                            .ORIENTATION_LANDSCAPE) {
+                        questionBG.setImageResource(R.drawable.correctland)
+                    } else {
+                        questionBG.setImageResource(R.drawable.correct)
+                    }
+                }else {
+                    questionBG.setImageResource(R.drawable.fontabletcorrect)
                 }
+
+
             } else {
                 when (myAnswer) {
                     1 -> aOption.setBackgroundResource(R.drawable.wrong_answer)
@@ -578,11 +615,19 @@ class QuestionI : LifecycleActivity() {
                     5 -> eOption.setBackgroundResource(R.drawable.wrong_answer)
                     6 -> fOption.setBackgroundResource(R.drawable.wrong_answer)
                 }
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    questionBG.setImageResource(R.drawable.wrongland)
+
+                val ua = WebView(this).settings.userAgentString
+                if ("Mobile" in ua){
+                    if (resources.configuration.orientation == Configuration.
+                        ORIENTATION_LANDSCAPE) {
+                        questionBG.setImageResource(R.drawable.wrongland)
+                    } else {
+                        questionBG.setImageResource(R.drawable.wrong)
+                    }
                 } else {
-                    questionBG.setImageResource(R.drawable.wrong)
+                    questionBG.setImageResource(R.drawable.fontabletwrong)
                 }
+
             }
 
         }
@@ -697,6 +742,21 @@ class QuestionI : LifecycleActivity() {
             menuDialogMain.dismiss()
         }
 
+        menuDialogMain.aboutView.setOnClickListener {
+            menuDialogMain.dismiss()
+            val aboutDialog = Dialog(this)
+            aboutDialog.setContentView(R.layout.about_layout)
+            aboutDialog.window
+                ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+            aboutDialog.show()
+            aboutDialog.aboutTextView.text = getString(R.string.about)
+            aboutDialog.setCanceledOnTouchOutside(false)
+            aboutDialog.setCancelable(false)
+            aboutDialog.OkBtnAbout.setOnClickListener {
+                aboutDialog.dismiss()
+            }
+        }
+
     }
 
     fun lowLive(view: View) {
@@ -733,7 +793,7 @@ class QuestionI : LifecycleActivity() {
         prizeDialog.setCanceledOnTouchOutside(false)
         prizeDialog.setCancelable(false)
         val prizes = Constants.getPrizeLives()
-        var prizeChoise = 0
+        var prizeChoice = 0
 
         prizeDialog.OkBtnPrize.isVisible = false
 
@@ -744,8 +804,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option1.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 1
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 1
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -755,8 +815,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option2.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize= 0
-                prizeChoise = 2
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 2
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -766,8 +826,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option3.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 3
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 3
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -777,8 +837,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option4.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 4
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 4
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -788,8 +848,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option5.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 5
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 5
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -799,8 +859,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option6.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 6
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 6
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -810,8 +870,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option7.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 7
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 7
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -821,8 +881,8 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option8.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 8
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 8
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
 
@@ -832,17 +892,17 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option9.animationXFade(Fade.FADE_IN)
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
-                prizeChoise = 9
-                prizeDialog.tvLowLivesPrize.text = "Your Prize Is:"
+                prizeChoice = 9
+                prizeDialog.prizeTitle.text = "Your Prize Is:"
             }
         }
         prizeDialog.OkBtnPrize.setOnClickListener {
 
             if (flagPrizeOk == -1) {
                 val sharedPreference: SharedPreference = SharedPreference(this)
-                numberOfLives = numberOfLives!! + prizes[prizeChoise-1].livesBonus
-                numberOfEnergy = numberOfEnergy!! + prizes[prizeChoise-1].energyBonus
-                numberOfPoints = numberOfPoints!! + prizes[prizeChoise-1].pointsBonus
+                numberOfLives = numberOfLives!! + prizes[prizeChoice-1].livesBonus
+                numberOfEnergy = numberOfEnergy!! + prizes[prizeChoice-1].energyBonus
+                numberOfPoints = numberOfPoints!! + prizes[prizeChoice-1].pointsBonus
                 sharedPreference.save("numberOfLs", numberOfLives!!)
                 tvLives.text = numberOfLives.toString()
 
@@ -862,15 +922,15 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option7.setImageResource(prizes[6].prizeImage)
                 prizeDialog.option8.setImageResource(prizes[7].prizeImage)
                 prizeDialog.option9.setImageResource(prizes[8].prizeImage)
-                prizeDialog.tvLowLivesPrize.text = "Thank You!"
+                prizeDialog.prizeTitle.text = "Thank You!"
 
                 flagPrizeOk = 0
             } else {
                 flagPrizeOk = -1
                 flagForPrize = -1
-                prizeChoise = 0
+                prizeChoice = 0
                 prizeDialog.OkBtnPrize.isVisible = false
-                prizeDialog.tvLowLivesPrize.text = "Select Your Prize!"
+                prizeDialog.prizeTitle.text = "Select Your Prize!"
                 prizeDialog.dismiss()
             }
         }

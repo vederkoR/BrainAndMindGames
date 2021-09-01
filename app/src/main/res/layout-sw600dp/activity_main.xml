@@ -2,9 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
+
+    <ImageView
+        android:id="@+id/back1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundii"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fontabletback" />
 
     <ImageView
         android:id="@+id/backgroundii"
@@ -12,120 +24,140 @@
         android:layout_height="0dp"
         android:contentDescription="@string/background_image"
         android:layerType="software"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/fonmainland" />
+        app:srcCompat="@drawable/fonmain" />
 
-
-    <ScrollView
+    <ImageView
+        android:id="@+id/back2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundii"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2"
+        app:srcCompat="@drawable/fontabletback" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline14"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
 
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="42dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="42dp"
             android:orientation="vertical">
 
             <ToggleButton
                 android:id="@+id/easyLevelBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
                 android:background="@drawable/botton_toggles"
                 android:fontFamily="@font/aldrich"
                 android:onClick="mainActivityEasyBtn"
                 android:soundEffectsEnabled="false"
                 android:textOff="@string/easy"
                 android:textOn="@string/easy"
-                android:textSize="16sp" />
+                android:textSize="30sp" />
 
             <ToggleButton
                 android:id="@+id/normalLevelBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
                 android:background="@drawable/botton_toggles"
                 android:fontFamily="@font/aldrich"
                 android:onClick="mainActivityNormalBtn"
                 android:soundEffectsEnabled="false"
                 android:textOff="@string/normal"
                 android:textOn="@string/normal"
-                android:textSize="16sp" />
+                android:textSize="30sp" />
 
             <ToggleButton
                 android:id="@+id/hardLevelBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
                 android:background="@drawable/botton_toggles"
                 android:fontFamily="@font/aldrich"
                 android:onClick="mainActivityHardBtn"
                 android:soundEffectsEnabled="false"
                 android:textOff="@string/hard"
                 android:textOn="@string/hard"
-                android:textSize="16sp" />
+                android:textSize="30sp" />
 
             <ToggleButton
                 android:id="@+id/impBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
                 android:background="@drawable/botton_toggles"
                 android:fontFamily="@font/aldrich"
                 android:onClick="mainActivityimpBtn"
                 android:soundEffectsEnabled="false"
                 android:textOff="IMPOSSIBLE"
                 android:textOn="IMPOSSIBLE"
-                android:textSize="16sp" />
+                android:textSize="30sp" />
 
             <ToggleButton
                 android:id="@+id/trickyLevelBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/main_levels_dist_down"
                 android:background="@drawable/botton_toggles_tricky"
                 android:fontFamily="@font/aldrich"
                 android:onClick="mainActivityTrickyBtn"
                 android:soundEffectsEnabled="false"
                 android:textOff="@string/tricky"
                 android:textOn="@string/tricky"
-                android:textSize="16sp" />
+                android:textSize="30sp" />
 
             <Button
                 android:id="@+id/button7"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="@dimen/main_levels_dist_up"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/bottons_checked"
                 android:fontFamily="@font/aldrich"
                 android:onClick="taskActivity"
                 android:soundEffectsEnabled="false"
                 android:text="@string/get_started"
-                android:textSize="18sp" />
+                android:textSize="30sp" />
         </LinearLayout>
     </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.49" />
+
+
 
     <ImageView
         android:id="@+id/menuQuBtn"
@@ -133,24 +165,10 @@
         android:layout_height="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintHorizontal_bias="0.97"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.06999999"
+        app:layout_constraintVertical_bias="0.02"
         app:srcCompat="@drawable/ic_baseline_menu_24" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.46" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.89" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
