@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.KotlinForAndroidBtA5" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="logicPuzzlesAndGames" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/myblack</item>
         <item name="colorPrimaryVariant">@color/myblack</item>

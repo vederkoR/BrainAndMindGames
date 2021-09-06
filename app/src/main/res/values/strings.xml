@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Brain And Mind Games</string>
+    <string name="app_name">B&amp;M Games</string>
     <string name="background_image">background image</string>
     <string name="easy">EASY</string>
     <string name="normal">NORMAL</string>
@@ -17,9 +17,9 @@
     <string name="f">F</string>
     <string name="e">E</string>
     <string name="about">\tThis is one of the first versions of the application.
-        This is a reason why it can contain some typos and not optimal tasks for each level.
-        We will be happy to hear any suggestions, propositions, and concerns. Please,
-        email us at \nvikles.games.dev@gmail.com.\n\tDepending on the success of the application,
+        This is a reason why it may contain some typos and not optimal tasks for each level.
+        We will be happy to hear from you any suggestions, propositions, and concerns how to improve
+        it. Please, email us at \nvikles.games.dev@gmail.com.\n\tDepending on the success of the application,
         the number of questions will be increased, and their quality will be improved regularly.
         Also, translations into different languages will be added gradually.\n\tThis is a free but
         ad-based application. We hope that some advertisements will not overshadow the enjoyment

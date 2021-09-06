@@ -74,14 +74,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView3">
 
                 <ImageView
-                    android:id="@+id/shareView"
+                    android:id="@+id/noAdView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/adno" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/shareView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"

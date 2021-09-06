@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/fon" />
+        app:srcCompat="@drawable/normportred" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -137,7 +137,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:contentDescription="@string/task1"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toStartOf="@+id/guideline17"
@@ -145,7 +147,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/sampleii" />
+        app:srcCompat="@drawable/easyansi" />
 
     <ScrollView
         android:layout_width="0dp"
