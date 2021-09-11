@@ -21,12 +21,12 @@ class TaskListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
-        var myplayer = intent.getParcelableExtra<Player>(PLAYER)
+        val myplayer = intent.getParcelableExtra<Player>(PLAYER)
         val numberOfElms: Int =
             if (resources.configuration.orientation
                 == Configuration.ORIENTATION_LANDSCAPE) 8 else 4
 
-
+        setLang(myplayer!!)
         layoutManager = GridLayoutManager(this,numberOfElms)
         recyclerView.layoutManager = layoutManager
 
@@ -47,5 +47,10 @@ override fun onBackPressed() {
     startActivity(home)
     finish()
 }
+    private fun setLang(myplayer:Player){
+        if (myplayer.lang =="RU"){
+            backToHomeListBtn.text = "Вернуться на главную"
+        }
+    }
 
 }

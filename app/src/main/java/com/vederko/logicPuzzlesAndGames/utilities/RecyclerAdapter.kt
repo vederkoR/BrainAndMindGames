@@ -15,8 +15,8 @@ import com.vederko.logicPuzzlesAndGames.utilities.Constants.getHardQuestions
 import com.vederko.logicPuzzlesAndGames.utilities.Constants.getTrickyQuestions
 import com.vederko.logicPuzzlesAndGames.utilities.Constants.getImpossibleQuestions
 
-class RecyclerAdapter(open var replayer: Player?) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-    var myListInitial =  when (replayer?.levelChoise){
+class RecyclerAdapter(var replayer: Player?) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+    private var myListInitial =  when (replayer?.levelChoice){
         "Easy" ->  getEasyQuestions()
         "Normal" ->  getNormalQuestions()
         "Hard" ->  getHardQuestions()
@@ -25,22 +25,20 @@ class RecyclerAdapter(open var replayer: Player?) : RecyclerView.Adapter<Recycle
         else -> getEasyQuestions()
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var itemImage: ImageView
-        var itemNumber: TextView
+        var itemImage: ImageView = itemView.findViewById(R.id.item_image)
+        var itemNumber: TextView = itemView.findViewById(R.id.item_number)
 
         init {
 
-            itemImage = itemView.findViewById(R.id.item_image)
-            itemNumber = itemView.findViewById(R.id.item_number)
             itemView.setOnClickListener { v: View ->
-                var position: Int = getAdapterPosition()
+                val position: Int = adapterPosition
                 if (replayer!!.solved!!.toInt() > position) {
                     replayer?.quesChoise = position.toString()
                     val context: Context = v.context
                     val firstTaskIntent = Intent(context, QuestionI::class.java)
                     firstTaskIntent.putExtra(PLAYER, replayer)
                     context.startActivity(firstTaskIntent)
-                }
+               }
     }
 }
     }

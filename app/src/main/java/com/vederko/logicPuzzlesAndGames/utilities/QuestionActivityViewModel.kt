@@ -4,13 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class QuestionActivityViewModel(private val currentPosition: Int = 0
+class QuestionActivityViewModel(
+    currentPosition: Int = 0
 ) : ViewModel() {
 
     val position: MutableLiveData<Int> = MutableLiveData()
     val regimeLD: MutableLiveData<Int> = MutableLiveData()
     val answerLD: MutableLiveData<Int> = MutableLiveData()
-    val dataLD: MutableLiveData<MutableLiveData<Int>> = MutableLiveData()
     init {
         position.value = currentPosition
         regimeLD.value = 0

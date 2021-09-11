@@ -1,16 +1,17 @@
 package com.vederko.logicPuzzlesAndGames.activities
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.vederko.logicPuzzlesAndGames.BuildConfig
 import com.vederko.logicPuzzlesAndGames.R
 import com.vederko.logicPuzzlesAndGames.utilities.PLAYER
@@ -27,19 +28,20 @@ import java.lang.Exception
 
 class MainActivity : LifecycleActivity() {
     private var myplayer = Player()
-    var soundTag: Int? = null
-    var choiceSound: MediaPlayer? = null
-    var easyLevelSolved = 0
-    var normalLevelSolved = 0
-    var hardLevelSolved = 0
-    var trickyLevelSolved = 0
-    var impossibleLevelSolved = 0
+    private var soundTag: Int? = null
+    private var choiceSound: MediaPlayer? = null
+    private var easyLevelSolved = 0
+    private var normalLevelSolved = 0
+    private var hardLevelSolved = 0
+    private var trickyLevelSolved = 0
+    private var impossibleLevelSolved = 0
 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(PLAYER, myplayer)
     }
+    @SuppressLint("SourceLockedOrientationActivity", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,7 +64,24 @@ class MainActivity : LifecycleActivity() {
 
         menuQuBtn.setOnClickListener {
             onMenuClicked(sharedPreferenceMenu.getValueInt("music"),
-                sharedPreferenceMenu.getValueInt("sound"))
+                sharedPreferenceMenu.getValueInt("sound"),
+            myplayer)
+
+
+        }
+
+        if (sharedPreferenceMenu.getValueInt("LANG") == -1){
+            lngBtn?.text = "RU"
+            myplayer.lang = "RU"
+        } else {
+            lngBtn?.text = "EN"
+            myplayer.lang = "EN"
+        }
+
+        setLang()
+
+        lngBtn?.setOnClickListener{
+            langChange()
         }
 
 
@@ -73,8 +92,33 @@ class MainActivity : LifecycleActivity() {
         myplayer = savedInstanceState.getParcelable(PLAYER)!!
     }
 
-    fun taskActivity(view:View) {
-        if (myplayer.levelChoise != "") {
+    @SuppressLint("SetTextI18n")
+    fun langChange(){
+        val sharedPreferenceMenu= SharedPreference(this@MainActivity)
+        if (lngBtn?.text == "RU"){
+            easyLevelBtn.text = "ЛЕГКИЙ"
+            normalLevelBtn.text = "СРЕДНИЙ"
+            hardLevelBtn.text = "СЛОЖНЫЙ"
+            impBtn.text = "НЕВОЗМОЖНЫЙ"
+            trickyLevelBtn.text = "С ПОДВОХОМ"
+            button7.text = "ПОЕХАЛИ!"
+            myplayer.lang = "RU"
+            sharedPreferenceMenu.save("LANG", -1)
+        } else {
+            easyLevelBtn.text = "EASY"
+            normalLevelBtn.text = "NORMAL"
+            hardLevelBtn.text = "HARD"
+            impBtn.text = "IMPOSSIBLE"
+            trickyLevelBtn.text = "TRICKY"
+            button7.text = "GET STARTED"
+            myplayer.lang = "EN"
+            sharedPreferenceMenu.save("LANG", -2)
+        }
+
+    }
+
+    fun taskActivity(@Suppress("UNUSED_PARAMETER")view:View) {
+        if (myplayer.levelChoice != "") {
             if (myplayer.solved?.toInt() ==-2) myplayer.solved = 1.toString()
             val firstTaskIntent = Intent(this, TaskListActivity::class.java)
             firstTaskIntent.putExtra(PLAYER, myplayer)
@@ -98,7 +142,7 @@ class MainActivity : LifecycleActivity() {
 
     }
 
-    fun mainActivityEasyBtn (view:View){
+    fun mainActivityEasyBtn (@Suppress("UNUSED_PARAMETER")view:View){
 
         if (soundTag == -1) {
             try {
@@ -115,14 +159,16 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (!easyLevelBtn.isChecked) myplayer.levelChoise = ""
-        else myplayer.levelChoise = "Easy"
+        if (!easyLevelBtn.isChecked) myplayer.levelChoice = ""
+        else myplayer.levelChoice = "Easy"
 
         if (!easyLevelBtn.isChecked) myplayer.solved = "" else myplayer.solved =
             easyLevelSolved.toString()
+
+        setLang()
     }
 
-    fun mainActivityNormalBtn (view:View){
+    fun mainActivityNormalBtn (@Suppress("UNUSED_PARAMETER")view:View){
 
         if (soundTag == -1) {
             try {
@@ -139,14 +185,16 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (!normalLevelBtn.isChecked) myplayer.levelChoise = ""
-        else myplayer.levelChoise = "Normal"
+        if (!normalLevelBtn.isChecked) myplayer.levelChoice = ""
+        else myplayer.levelChoice = "Normal"
 
         if (!normalLevelBtn.isChecked) myplayer.solved = "" else myplayer.solved =
             normalLevelSolved.toString()
+
+        setLang()
     }
 
-    fun mainActivityHardBtn (view:View){
+    fun mainActivityHardBtn (@Suppress("UNUSED_PARAMETER")view:View){
 
 
         if (soundTag == -1) {
@@ -165,14 +213,16 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (!hardLevelBtn.isChecked) myplayer.levelChoise = ""
-        else myplayer.levelChoise = "Hard"
+        if (!hardLevelBtn.isChecked) myplayer.levelChoice = ""
+        else myplayer.levelChoice = "Hard"
 
         if (!hardLevelBtn.isChecked) myplayer.solved = "" else myplayer.solved =
             hardLevelSolved.toString()
+
+        setLang()
     }
 
-    fun mainActivityTrickyBtn (view:View){
+    fun mainActivityTrickyBtn (@Suppress("UNUSED_PARAMETER")view:View){
 
         if (soundTag == -1) {
             try {
@@ -190,14 +240,16 @@ class MainActivity : LifecycleActivity() {
         easyLevelBtn.isChecked = false
         impBtn.isChecked = false
 
-        if (!trickyLevelBtn.isChecked) myplayer.levelChoise = ""
-        else myplayer.levelChoise = "Tricky"
+        if (!trickyLevelBtn.isChecked) myplayer.levelChoice = ""
+        else myplayer.levelChoice = "Tricky"
 
         if (!trickyLevelBtn.isChecked) myplayer.solved = "" else myplayer.solved =
             trickyLevelSolved.toString()
+
+        setLang()
     }
 
-    fun mainActivityimpBtn (view:View){
+    fun mainActivityimpBtn (@Suppress("UNUSED_PARAMETER")view:View){
 
         if (soundTag == -1) {
             try {
@@ -215,14 +267,16 @@ class MainActivity : LifecycleActivity() {
         trickyLevelBtn.isChecked = false
         easyLevelBtn.isChecked = false
 
-        if (!impBtn.isChecked) myplayer.levelChoise = ""
-        else myplayer.levelChoise = "Impossible"
+        if (!impBtn.isChecked) myplayer.levelChoice = ""
+        else myplayer.levelChoice = "Impossible"
 
         if (!impBtn.isChecked) myplayer.solved = "" else myplayer.solved =
             impossibleLevelSolved.toString()
+
+        setLang()
     }
 
-    private fun onMenuClicked(musics: Int, sounds: Int) {
+    private fun onMenuClicked(musics: Int, sounds: Int, player: Player) {
         var music = musics
         var sound = sounds
         val sharedPreferenceMenu = SharedPreference(this@MainActivity)
@@ -276,6 +330,15 @@ class MainActivity : LifecycleActivity() {
             menuDialogMain.dismiss()
         }
 
+        menuDialogMain.noAdView.setOnClickListener {
+
+            Snackbar.make(
+                it,
+                "We will implement this option soon!\n ",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+
         menuDialogMain.aboutView.setOnClickListener {
             menuDialogMain.dismiss()
             val aboutDialog = Dialog(this)
@@ -283,8 +346,13 @@ class MainActivity : LifecycleActivity() {
             aboutDialog.window
                 ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
             aboutDialog.show()
-            aboutDialog.aboutTextView.text =
-                getString(R.string.about)
+            if (player.lang == "RU"){
+                aboutDialog.aboutTextView.text =
+                    getString(R.string.aboutRu)
+            }else {
+                aboutDialog.aboutTextView.text =
+                    getString(R.string.about)
+            }
             aboutDialog.setCanceledOnTouchOutside(false)
             aboutDialog.setCancelable(false)
             aboutDialog.OkBtnAbout.setOnClickListener {
@@ -323,6 +391,27 @@ class MainActivity : LifecycleActivity() {
                     Toast.makeText(this, "No play store or browser app", Toast.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+    @SuppressLint("SetTextI18n")
+    private fun setLang(){
+        if (myplayer.lang =="RU") {
+            easyLevelBtn.text = "ЛЕГКИЙ"
+            normalLevelBtn.text = "СРЕДНИЙ"
+            hardLevelBtn.text = "СЛОЖНЫЙ"
+            impBtn.text = "НЕВОЗМОЖНЫЙ"
+            trickyLevelBtn.text = "С ПОДВОХОМ"
+            button7.text = "ПОЕХАЛИ!"
+
+        } else {
+
+            easyLevelBtn.text = "EASY"
+            normalLevelBtn.text = "NORMAL"
+            hardLevelBtn.text = "HARD"
+            impBtn.text = "IMPOSSIBLE"
+            trickyLevelBtn.text = "TRICKY"
+            button7.text = "GET STARTED"
+
         }
     }
 }

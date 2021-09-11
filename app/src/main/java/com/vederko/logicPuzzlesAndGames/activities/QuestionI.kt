@@ -1,5 +1,6 @@
 package com.vederko.logicPuzzlesAndGames.activities
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -40,25 +41,26 @@ import kotlinx.android.synthetic.main.activity_main.menuQuBtn as menuQuBtn
 
 
 class QuestionI : LifecycleActivity() {
-    var mCurrentPosition: Int = 0
-    var regime = 0
-    var mQuestionsList: ArrayList<Question>? = null
-    var myAnswer: Int = 0
-    var choiceSound: MediaPlayer? = null
-    var musicBg: MediaPlayer? = null
+    private var mCurrentPosition: Int = 0
+    private var regime = 0
+    private var mQuestionsList: ArrayList<Question>? = null
+    private var myAnswer: Int = 0
+    private var choiceSound: MediaPlayer? = null
+    private var musicBg: MediaPlayer? = null
     var numberOfLives: Int? = null
-    var numberOfPoints: Int? = null
-    var numberOfEnergy: Int? = null
-    var flagForHint: Int = -1
-    var flagHintUsed: Int = -1
-    var soundTag: Int? = null
+    private var numberOfPoints: Int? = null
+    private var numberOfEnergy: Int? = null
+    private var flagForHint: Int = -1
+    private var flagHintUsed: Int = -1
+    private var soundTag: Int? = null
     var musciTag: Int? = null
-    var flagForPrize = -1
-    var flagPrizeOk = -1
+    private var flagForPrize = -1
+    private var flagPrizeOk = -1
     private var mIsLoading = false
     private var mRewardedAd: RewardedAd? = null
     private lateinit var viewModel: QuestionActivityViewModel
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_i)
@@ -74,16 +76,25 @@ class QuestionI : LifecycleActivity() {
         loadRewardedAd()
 
 
+if (playerLvlSelected!!.lang == "RU"){
+    when (playerLvlSelected.levelChoice) {
+        "Easy" -> mQuestionsList = Constants.getEasyQuestionsRu()
+        "Normal" -> mQuestionsList = Constants.getNormalQuestionsRu()
+        "Hard" -> mQuestionsList = Constants.getHardQuestionsRu()
+        "Tricky" -> mQuestionsList = Constants.getTrickyQuestionsRu()
+        "Impossible" -> mQuestionsList = Constants.getImpossibleQuestionsRu()
+    }
+} else {
+    when (playerLvlSelected.levelChoice) {
+        "Easy" -> mQuestionsList = Constants.getEasyQuestions()
+        "Normal" -> mQuestionsList = Constants.getNormalQuestions()
+        "Hard" -> mQuestionsList = Constants.getHardQuestions()
+        "Tricky" -> mQuestionsList = Constants.getTrickyQuestions()
+        "Impossible" -> mQuestionsList = Constants.getImpossibleQuestions()
+    }
+}
 
-        when (playerLvlSelected?.levelChoise) {
-            "Easy" -> mQuestionsList = Constants.getEasyQuestions()
-            "Normal" -> mQuestionsList = Constants.getNormalQuestions()
-            "Hard" -> mQuestionsList = Constants.getHardQuestions()
-            "Tricky" -> mQuestionsList = Constants.getTrickyQuestions()
-            "Impossible" -> mQuestionsList = Constants.getImpossibleQuestions()
-        }
-
-        mCurrentPosition = playerLvlSelected?.quesChoise!!.toInt()
+        mCurrentPosition = playerLvlSelected.quesChoise!!.toInt()
 
         checkPlayerState(sharedPreference)
 
@@ -105,7 +116,8 @@ class QuestionI : LifecycleActivity() {
         menuQuBtn.setOnClickListener {
             onMenuClicked(
                 sharedPreferenceMenu.getValueInt("music"),
-                sharedPreferenceMenu.getValueInt("sound")
+                sharedPreferenceMenu.getValueInt("sound"),
+                playerLvlSelected
             )
 
         }
@@ -248,7 +260,7 @@ class QuestionI : LifecycleActivity() {
                     viewModel.answerLD.observe(this, { myAnswer = it })
                     setQuestion()
                     flagHintUsed = -1
-                    nextActivity.text = "Submit"
+                    nextActivity.text = getString(R.string.nextActivity)
 
                     val ua = WebView(this).settings.userAgentString
 
@@ -291,19 +303,19 @@ class QuestionI : LifecycleActivity() {
                     }
                     val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
                     val sharedPreferenceSolved = SharedPreference(this)
-                    var easyLevelSolved = sharedPreferenceSolved
+                    val easyLevelSolved = sharedPreferenceSolved
                         .getValueInt("easyLevelSolved")
-                    var normalLevelSolved = sharedPreferenceSolved
+                    val normalLevelSolved = sharedPreferenceSolved
                         .getValueInt("normalLevelSolved")
-                    var hardLevelSolved = sharedPreferenceSolved
+                    val hardLevelSolved = sharedPreferenceSolved
                         .getValueInt("hardLevelSolved")
-                    var trickyLevelSolved = sharedPreferenceSolved
+                    val trickyLevelSolved = sharedPreferenceSolved
                         .getValueInt("trickyLevelSolved")
-                    var impossibleLevelSolved = sharedPreferenceSolved
+                    val impossibleLevelSolved = sharedPreferenceSolved
                         .getValueInt("impossibleLevelSolved")
 
 
-                    when (playerLvlSelected?.levelChoise) {
+                    when (playerLvlSelected?.levelChoice) {
                         "Easy" -> if (easyLevelSolved < mCurrentPosition+2) {
                             sharedPreferenceSolved
                                 .save("easyLevelSolved", (mCurrentPosition+2))
@@ -331,7 +343,7 @@ class QuestionI : LifecycleActivity() {
                         }
                     }
 
-                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    val sharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfPs", numberOfPoints!!)
                     tvPoints.text = numberOfPoints.toString()
                     if (soundTag == -1) {
@@ -369,7 +381,7 @@ class QuestionI : LifecycleActivity() {
                     }
 
                     numberOfLives = numberOfLives!! - 1
-                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    val sharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfLs", numberOfLives!!)
                     tvLives.text = numberOfLives.toString()
                     if (soundTag == -1) {
@@ -384,19 +396,19 @@ class QuestionI : LifecycleActivity() {
 
                     val playerLvlSelected = intent.getParcelableExtra<Player>(PLAYER)
                     val sharedPreferenceSolved = SharedPreference(this)
-                    var easyLevelSolved = sharedPreferenceSolved
+                    val easyLevelSolved = sharedPreferenceSolved
                         .getValueInt("easyLevelSolved")
-                    var normalLevelSolved = sharedPreferenceSolved
+                    val normalLevelSolved = sharedPreferenceSolved
                         .getValueInt("normalLevelSolved")
-                    var hardLevelSolved = sharedPreferenceSolved
+                    val hardLevelSolved = sharedPreferenceSolved
                         .getValueInt("hardLevelSolved")
-                    var trickyLevelSolved = sharedPreferenceSolved
+                    val trickyLevelSolved = sharedPreferenceSolved
                         .getValueInt("trickyLevelSolved")
-                    var impossibleLevelSolved = sharedPreferenceSolved
+                    val impossibleLevelSolved = sharedPreferenceSolved
                         .getValueInt("impossibleLevelSolved")
 
 
-                    when (playerLvlSelected?.levelChoise) {
+                    when (playerLvlSelected?.levelChoice) {
                         "Easy" -> if (easyLevelSolved < mCurrentPosition+2) {
                             sharedPreferenceSolved
                                 .save("easyLevelSolved", (mCurrentPosition+2))
@@ -440,12 +452,12 @@ class QuestionI : LifecycleActivity() {
                 viewModel.regimeLD.observe(this, { regime = it })
 
 
-                nextActivity.text = "Next"
+                nextActivity.text = getString(R.string.nextActivityNext)
             }
         }
     }
 
-    fun onAListener(view: View) {
+    fun onAListener(@Suppress("UNUSED_PARAMETER")view: View) {
         viewModel.regimeLD.observe(this, { regime = it })
         if (regime == 0) {
 
@@ -475,7 +487,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-    fun onBListener(view: View) {
+    fun onBListener(@Suppress("UNUSED_PARAMETER")view: View) {
         viewModel.regimeLD.observe(this, { regime = it })
         if (regime == 0) {
 
@@ -506,7 +518,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-    fun onCListener(view: View) {
+    fun onCListener(@Suppress("UNUSED_PARAMETER")view: View) {
         viewModel.regimeLD.observe(this, { regime = it })
         if (regime == 0) {
 
@@ -538,7 +550,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-    fun onDListener(view: View) {
+    fun onDListener(@Suppress("UNUSED_PARAMETER")view: View) {
         viewModel.regimeLD.observe(this, { regime = it })
         if (regime == 0) {
 
@@ -571,7 +583,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-    fun onEListener(view: View) {
+    fun onEListener(@Suppress("UNUSED_PARAMETER")view: View) {
         viewModel.regimeLD.observe(this, { regime = it })
 
 
@@ -602,7 +614,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-    fun onFListener(view: View) {
+    fun onFListener(@Suppress("UNUSED_PARAMETER")view: View) {
         viewModel.regimeLD.observe(this, { regime = it })
         if (regime == 0) {
 
@@ -662,7 +674,7 @@ class QuestionI : LifecycleActivity() {
             taskImage.setImageResource(question.answerImage)
             taskImage.animationXZoom(Zoom.ZOOM_IN)
             taskQuestion.text = question.answer
-            nextActivity.text = "Next"
+            nextActivity.text = getString(R.string.nextActivityNext)
             hintBtn.text = "Q"
             when (question.correctAnswer) {
                 1 -> aOption.setBackgroundResource(R.drawable.correct_answer)
@@ -721,7 +733,8 @@ class QuestionI : LifecycleActivity() {
             if (numberOfEnergy == 0 && flagHintUsed==-1) {
                 val energyDialog = Dialog(this)
                 energyDialog.setContentView(R.layout.low_energy_layout)
-                energyDialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
+                energyDialog.window?.setBackgroundDrawableResource(R
+                    .drawable.dialog_rounded_background)
                 energyDialog.show()
                 energyDialog.setCanceledOnTouchOutside(false)
                 energyDialog.setCancelable(false)
@@ -736,10 +749,14 @@ class QuestionI : LifecycleActivity() {
             } else {
                 if (question.hint != null) {
                     if (flagHintUsed == -1) numberOfEnergy = numberOfEnergy!! - 1
-                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    val sharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfEs", numberOfEnergy!!)
                     tvHints.text = numberOfEnergy.toString()
-                    var snack = Snackbar.make(view, question!!.hint!!, 10000)
+                    val snack = Snackbar.make(
+                        view,
+                        question.hint,
+                        10000
+                    )
                     snack.setActionTextColor(Color.BLUE)
                     val snackBarView = snack.view
                     snackBarView.setBackgroundColor(Color.BLACK)
@@ -767,7 +784,7 @@ class QuestionI : LifecycleActivity() {
         }
     }
 
-    fun onMenuClicked(musics: Int, sounds: Int) {
+    private fun onMenuClicked(musics: Int, sounds: Int, player: Player) {
         var music = musics
         var sound = sounds
         val sharedPreferenceMenu = SharedPreference(this)
@@ -825,6 +842,15 @@ class QuestionI : LifecycleActivity() {
             menuDialogMain.dismiss()
         }
 
+        menuDialogMain.noAdView.setOnClickListener {
+
+            Snackbar.make(
+                it,
+                "We will implement this option soon!\n ",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+
         menuDialogMain.aboutView.setOnClickListener {
             menuDialogMain.dismiss()
             val aboutDialog = Dialog(this)
@@ -832,7 +858,13 @@ class QuestionI : LifecycleActivity() {
             aboutDialog.window
                 ?.setBackgroundDrawableResource(R.drawable.dialog_rounded_background)
             aboutDialog.show()
-            aboutDialog.aboutTextView.text = getString(R.string.about)
+            if (player.lang == "RU"){
+                aboutDialog.aboutTextView.text =
+                    getString(R.string.aboutRu)
+            }else {
+                aboutDialog.aboutTextView.text =
+                    getString(R.string.about)
+            }
             aboutDialog.setCanceledOnTouchOutside(false)
             aboutDialog.setCancelable(false)
             aboutDialog.OkBtnAbout.setOnClickListener {
@@ -845,7 +877,8 @@ class QuestionI : LifecycleActivity() {
             intent.action=Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_SUBJECT,"BRAIN &amp; MIND: LOGIC PUZZLES AND GAMES")
             intent.putExtra(Intent.EXTRA_TEXT,"Let me recommend you this application:" +
-                    "\n\n  http://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
+                    "\n\n  http://play.google.com/store/apps/details?id=" +
+                    BuildConfig.APPLICATION_ID)
             intent.type="text/plain"
             startActivity(Intent.createChooser(intent,"Share To:"))
         }
@@ -864,18 +897,20 @@ class QuestionI : LifecycleActivity() {
             }
             else {
                 intent = Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID))
+                    Uri.parse("http://play.google.com/store/apps/details?id="
+                            + BuildConfig.APPLICATION_ID))
                 if (intent.resolveActivity(this.packageManager) != null) {
                     startActivity(intent)
                 }
                 else {
-                    Toast.makeText(this, "No play store or browser app", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "No play store or browser app",
+                        Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    fun lowLive(view: View) {
+    private fun lowLive(view: View) {
         Snackbar.make(
             view,
             "You don't have enough lives to continue!",
@@ -888,6 +923,7 @@ class QuestionI : LifecycleActivity() {
         livesDialog.show()
         livesDialog.setCanceledOnTouchOutside(false)
         livesDialog.setCancelable(false)
+
         livesDialog.OkBtn.setOnClickListener {
             if (numberOfLives!! >= 5) {
                 livesDialog.dismiss()
@@ -910,7 +946,7 @@ class QuestionI : LifecycleActivity() {
     }
 
 
-    fun prizeDialogFun() {
+    private fun prizeDialogFun() {
         val prizeDialog = Dialog(this)
         prizeDialog.setContentView(R.layout.your_price_layout)
         prizeDialog.window
@@ -931,7 +967,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 1
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text  = getString(R.string.prizeTitleI)
             }
         }
 
@@ -942,7 +978,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize= 0
                 prizeChoice = 2
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
 
@@ -953,7 +989,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 3
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
 
@@ -964,7 +1000,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 4
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
 
@@ -975,7 +1011,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 5
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
 
@@ -986,7 +1022,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 6
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
 
@@ -997,7 +1033,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 7
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
 
@@ -1008,7 +1044,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 8
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
 
@@ -1019,13 +1055,13 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.OkBtnPrize.isVisible = true
                 flagForPrize = 0
                 prizeChoice = 9
-                prizeDialog.prizeTitle.text = "Your Prize Is:"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleI)
             }
         }
         prizeDialog.OkBtnPrize.setOnClickListener {
 
             if (flagPrizeOk == -1) {
-                val sharedPreference: SharedPreference = SharedPreference(this)
+                val sharedPreference = SharedPreference(this)
                 numberOfLives = numberOfLives!! + prizes[prizeChoice-1].livesBonus
                 numberOfEnergy = numberOfEnergy!! + prizes[prizeChoice-1].energyBonus
                 numberOfPoints = numberOfPoints!! + prizes[prizeChoice-1].pointsBonus
@@ -1048,7 +1084,7 @@ class QuestionI : LifecycleActivity() {
                 prizeDialog.option7.setImageResource(prizes[6].prizeImage)
                 prizeDialog.option8.setImageResource(prizes[7].prizeImage)
                 prizeDialog.option9.setImageResource(prizes[8].prizeImage)
-                prizeDialog.prizeTitle.text = "Thank You!"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleII)
 
                 flagPrizeOk = 0
             } else {
@@ -1056,7 +1092,7 @@ class QuestionI : LifecycleActivity() {
                 flagForPrize = -1
                 prizeChoice = 0
                 prizeDialog.OkBtnPrize.isVisible = false
-                prizeDialog.prizeTitle.text = "Select Your Prize!"
+                prizeDialog.prizeTitle.text = getString(R.string.prizeTitleIII)
                 prizeDialog.dismiss()
             }
         }
@@ -1067,19 +1103,19 @@ class QuestionI : LifecycleActivity() {
     private fun loadRewardedAd() {
         if (mRewardedAd == null) {
             mIsLoading = true
-            var adRequest = AdRequest.Builder().build()
+            val adRequest = AdRequest.Builder().build()
 
             RewardedAd.load(
                 this, AD_UNIT_ID, adRequest,
                 object : RewardedAdLoadCallback() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
-                        Log.d(TAG, adError.message)
+                        Log.d(tag, adError.message)
                         mIsLoading = false
                         mRewardedAd = null
                     }
 
                     override fun onAdLoaded(rewardedAd: RewardedAd) {
-                        Log.d(TAG, "Ad was loaded.")
+                        Log.d(tag, "Ad was loaded.")
                         mRewardedAd = rewardedAd
                         mIsLoading = false
                     }
@@ -1092,7 +1128,7 @@ class QuestionI : LifecycleActivity() {
         if (mRewardedAd != null) {
             mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
-                    Log.d(TAG, "Ad was dismissed.")
+                    Log.d(tag, "Ad was dismissed.")
                     // Don't forget to set the ad reference to null so you
                     // don't show the ad a second time.
                     mRewardedAd = null
@@ -1117,13 +1153,20 @@ class QuestionI : LifecycleActivity() {
                 OnUserEarnedRewardListener {
                     numberOfLives = 5
                     tvLives.text = numberOfLives.toString()
-                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    val sharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfLs", numberOfLives!!)
                     tvLives.text = numberOfLives.toString()
                     prizeDialogFun()
                     if (musciTag== -1) {musicPlay()}
                 }
             )
+        } else {
+            numberOfLives = 1
+            tvLives.text = numberOfLives.toString()
+            val sharedPreference = SharedPreference(this)
+            sharedPreference.save("numberOfLs", numberOfLives!!)
+            tvLives.text = numberOfLives.toString()
+            loadRewardedAd()
         }
     }
 
@@ -1131,7 +1174,7 @@ class QuestionI : LifecycleActivity() {
         if (mRewardedAd != null) {
             mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
-                    Log.d(TAG, "Ad was dismissed.")
+                    Log.d(tag, "Ad was dismissed.")
                     // Don't forget to set the ad reference to null so you
                     // don't show the ad a second time.
                     mRewardedAd = null
@@ -1154,13 +1197,18 @@ class QuestionI : LifecycleActivity() {
                 this,
                 OnUserEarnedRewardListener {
                     numberOfEnergy = 5
-                    val sharedPreference: SharedPreference = SharedPreference(this)
+                    val sharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfEs", numberOfEnergy!!)
                     tvHints.text = numberOfEnergy.toString()
                     if (musciTag== -1) {musicPlay()}
                 }
             )
+        } else {
+            numberOfEnergy = 1
+            val sharedPreference = SharedPreference(this)
+            sharedPreference.save("numberOfEs", numberOfEnergy!!)
+            tvHints.text = numberOfEnergy.toString()
+            loadRewardedAd()
         }
     }
-
 }

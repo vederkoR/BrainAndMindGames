@@ -7,7 +7,7 @@ data class Question (
     val numberOfQuestions: Int,
     val correctAnswer: Int,
     val iconImage: Int,
-    val lockIconImage: Int =5,
+    val lockIconImage: Int,
     val name: String,
     val answerImage: Int,
     val answer: String,

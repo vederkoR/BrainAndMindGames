@@ -3,16 +3,17 @@ package com.vederko.logicPuzzlesAndGames.utilities
 import android.os.Parcel
 import android.os.Parcelable
 
-class Player constructor(var levelChoise : String? = "", var quesChoise : String? = "3",
-                         var solved : String? = "") : Parcelable {
+class Player constructor(var levelChoice : String? = "", var quesChoise : String? = "3",
+                         var solved : String? = "", var lang: String? = "EN") : Parcelable {
     constructor(parcel: Parcel) : this(parcel.readString(),parcel.readString(),
-        parcel.readString()) {
+        parcel.readString(), parcel.readString()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(levelChoise)
+        parcel.writeString(levelChoice)
         parcel.writeString(quesChoise)
         parcel.writeString(solved)
+        parcel.writeString(lang)
     }
 
     override fun describeContents(): Int {
