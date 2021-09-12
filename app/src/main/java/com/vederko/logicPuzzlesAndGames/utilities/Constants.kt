@@ -162,7 +162,7 @@ object Constants {
             name = "easy4",
             answerImage = R.drawable.easyansiv,
             answer ="The answer is shown in the picture.",
-            hint = "It contains 6...")
+            hint = "It does not contain 6...")
 
         questionsList.add(easyQuestion4)
 
@@ -177,7 +177,7 @@ object Constants {
             name = "easy5",
             answerImage = R.drawable.easyansv,
             answer ="The answer is shown in the picture.",
-            hint = "Assembly of 7 lines …")
+            hint = "Assembly of 4 lines and a circle…")
 
         questionsList.add(easyQuestion5)
 
@@ -312,8 +312,8 @@ object Constants {
             lockIconImage = R.drawable.leasyiconxiii,
             name = "easy13",
             answerImage = R.drawable.easyansxiii,
-            answer = "There are 9 pieces of green screw-nuts, 7 pieces of gray screw-nuts, " +
-                    "and 5 pieces of purple screw-nuts. The answer is B, a green robot.",
+            answer = "There are 9 green screw-nuts, 7 gray screw-nuts, " +
+                    "and 5 purple screw-nuts. The answer is B, a green robot.",
             hint = "Count the number of screw-nuts…")
 
         questionsList.add(easyQuestion13)
@@ -372,7 +372,7 @@ object Constants {
         val easyQuestion17 = Question(
             id = 17,
             question = "In which position on the hanging scale should the 16" +
-                    " lb. weight be placed so that it balances the 8 lb. at the other " +
+                    " lb weight be placed so that it balances the 8 lb at the other " +
                     "end. An 8 lb weight hangs at a distance of 2 arbitrary units from the " +
                     "block, as shown in the figure.",
             questionImage = R.drawable.easyquesxvii,
@@ -481,7 +481,7 @@ object Constants {
             lockIconImage = R.drawable.leasyiconxxiii,
             name = "easy23",
             answerImage = R.drawable.easyansxxiii,
-            answer = "An ancient door with an old keyhole plate may be " +
+            answer = "An ancient door with an old keyhole plate can be " +
                     "opened with a set of golden keys on a ring.",
             hint = "Take a look at the keyhole...")
 
@@ -619,7 +619,7 @@ object Constants {
             id = 32,
             question = "Each shape corresponds to a one-digit number between 0 and 9. The sums" +
                     " of the corresponding numbers are shown in equations 1-3. What number" +
-                    " corresponds to an octagon?",
+                    " corresponds to the octagon?",
             questionImage = R.drawable.easyquesxxxii,
             numberOfQuestions = 6,
             correctAnswer = 4,
@@ -642,14 +642,14 @@ object Constants {
             lockIconImage = R.drawable.leasyiconxxxiii,
             name = "easy33",
             answerImage = R.drawable.easyansxxxiii,
-            answer = "Add all the numbers around the edges to find the center one.",
+            answer = "Add all the numbers around the edges to find the central one.",
             hint = " Add…")
 
         questionsList.add(easyQuestion33)
 
         val easyQuestion34 = Question(
             id = 34,
-            question = "What sequence of mathematical operations should be placed instead" +
+            question = "Which sequence of mathematical operations should be placed instead" +
                     " of the question marks for the equation to be true?",
             questionImage = R.drawable.easyquesxxxiv,
             numberOfQuestions = 6,
@@ -659,7 +659,7 @@ object Constants {
             name = "easy34",
             answerImage = R.drawable.easyansxxxiv,
             answer = "Only one sequence is correct.",
-            hint = "Do not divide…")
+            hint = "Include division…")
 
         questionsList.add(easyQuestion34)
 
@@ -840,7 +840,7 @@ object Constants {
             id = 46,
             question = "There are paths between points 1 and 0 that go through " +
                     "points 2, 3, 4, and 5 and lead only in the direction indicated by " +
-                    "the arrows. How many different paths (e.g. 1 → 2 → 0) are" +
+                    "the arrows. How many different paths (e.g. 1-> 2 -> 0) are" +
                     " there between points 1 and 0?",
             questionImage = R.drawable.easyquesxlvi,
             numberOfQuestions = 6,
@@ -1035,7 +1035,7 @@ object Constants {
             lockIconImage = R.drawable.lnormaliconiv,
             name = "normal4",
             answerImage = R.drawable.normalansiv,
-            answer =" Shape #6 has a small detail (indicated by a red arrow) that " +
+            answer =" Shape #6 has a small detail (indicated by a red frame) that " +
                     "does not fit the other shapes in the column.",
             hint = "Look at the small elements in the columns ...")
 
@@ -1140,7 +1140,7 @@ object Constants {
             name = "normal10",
             answerImage = R.drawable.normalansx,
             answer =" The green hexagon will be present in the 3rd shape if it is present" +
-                    " in at least one of the two previous shapes. ",
+                    " at least in one of the two previous shapes. ",
             hint = " The first and the second define the third...")
 
         questionsList.add(normalQuestion10)
@@ -1208,7 +1208,7 @@ object Constants {
             name = "normal14",
             answerImage = R.drawable.normalansxiv,
             answer = "The answer is shown in the picture.",
-            hint = "Look at the small elements in the row ...")
+            hint = "Check every row...")
 
         questionsList.add(normalQuestion14)
 
@@ -1384,8 +1384,8 @@ object Constants {
         val normalQuestion25 = Question(
             id = 25,
             question = "Lieman always lies; Trueman always speaks the truth." +
-                    " Trueman looks from above and says that he sees a red ring." +
-                    " Lieman looks from the side and says that the red ring is the" +
+                    " Trueman looks from above and says that he sees a red layer." +
+                    " Lieman looks from the side and says that the red layer is the" +
                     " largest. Which fir-tree matches their description?",
             questionImage = R.drawable.normalquesxxv,
             numberOfQuestions = 3,
@@ -1445,7 +1445,7 @@ object Constants {
             answerImage = R.drawable.normalansxxviii,
             answer = "Green is under red. A square is under a triangle. Only " +
                     "one option contains a green square.",
-            hint = "Break the task down into 3 easier tasks...")
+            hint = "Break down the task  into 3 easier tasks...")
 
         questionsList.add(normalQuestion28)
 
@@ -1496,7 +1496,7 @@ object Constants {
             answerImage = R.drawable.normalansxxxi,
             answer = "Comparing the \"Sixes\", it can be seen that the \"Diamonds\" are equal " +
                     "to four \"Spades\". Also comparing the \"Fives\", it can be seen that the" +
-                    " \"Clubs\" are equal to six spades ( or 1.5 \"Diamonds\"). 44 x 1.5 = 66.",
+                    " \"Clubs\" are equal to six spades (or 1.5 \"Diamonds\"). 44 x 1.5 = 66.",
             hint = "Compare all possible card pairs...")
 
         questionsList.add(normalQuestion31)
@@ -1541,7 +1541,8 @@ object Constants {
 
         val normalQuestion34 = Question(
             id = 34,
-            question = "Which notes on the grand staff are logically ordered?",
+            question = "Which notes on the grand staff are logically ordered? (you do not need" +
+                    "knowledge of music to solve it!)",
             questionImage = R.drawable.normalquesxxxiv,
             numberOfQuestions = 3,
             correctAnswer = 1,
@@ -1735,7 +1736,7 @@ object Constants {
             lockIconImage = R.drawable.lnormaliconxlv,
             name = "normal45",
             answerImage = R.drawable.normalansxlv,
-            answer ="First, a green triangle was drawn. A pink cross was drawn over it.",
+            answer ="First, a green triangle was drawn. A orange cross was drawn over it.",
             hint = "Not gray...")
 
         questionsList.add(normalQuestion45)
@@ -1861,7 +1862,7 @@ object Constants {
 
         val normalQuestion53 = Question(
             id = 53,
-            question = "Weights and balloons are positioned on the hanging scale" +
+            question = "Weights are positioned on the hanging scale" +
                     " in such a way that the scales are in equilibrium and balanced" +
                     " as well. What is the mass of the yellow cube?",
             questionImage = R.drawable.normalquesliii,
@@ -1964,8 +1965,8 @@ object Constants {
             name = "hard5",
             answerImage = R.drawable.hardansv,
             answer =" The color of each shape alternates; there is one small shape for every" +
-                    " two large shapes. Considering only the order of the figures of the" +
-                    " star, one can immediately understand that the answer is B, since it is" +
+                    " two large shapes. Considering only the order of the" +
+                    " stars, one can immediately understand that the answer is B, since it is" +
                     " the only one containing with a dark large star.",
             hint = " Don't look at 3 but look at 1...")
 
@@ -2212,8 +2213,8 @@ object Constants {
             id = 19,
             question = "Which shape comes next in this sequence?",
             questionImage = R.drawable.hardquesxix,
-            numberOfQuestions = 3,
-            correctAnswer = 2,
+            numberOfQuestions = 4,
+            correctAnswer = 4,
             iconImage = R.drawable.hardiconxix,
             lockIconImage = R.drawable.lhardiconxix,
             name = "hard19",
@@ -2255,8 +2256,7 @@ object Constants {
             answerImage = R.drawable.hardansxxi,
             answer = "The spheres can be placed not only on top of one another but also by " +
                     "alternate planes, as shown in the picture. Thus, the spheres can be packed" +
-                    " in tighter lattices. To know more," +
-                    " look for \"Close-packing of equal spheres\" topics.",
+                    " in tighter lattices.",
             hint = "One over the other? Don't think so...")
 
         questionsList.add(hardQuestion21)
@@ -2503,7 +2503,7 @@ object Constants {
 
         val hardQuestion36 = Question(
             id = 36,
-            question = "If you pull the ends, which rope will form a knot?",
+            question = "If you pull the ends, which rope will not form a knot?",
             questionImage = R.drawable.hardquesxxxvi,
             numberOfQuestions = 6,
             correctAnswer = 5,
@@ -2587,7 +2587,7 @@ object Constants {
             lockIconImage = R.drawable.lhardiconxl,
             name = "hard40",
             answerImage = R.drawable.hardansxl,
-            answer = "G can only be a wrapped candy. The cake next to it appeared earlier as ." +
+            answer = "G can only be a wrapped candy. The cake next to it appeared earlier." +
                     " Only one answer contains a wrapped candy.",
             hint = "The same dessert can be present more than once...")
 
@@ -2969,7 +2969,7 @@ object Constants {
 
         val trickyQuestion12 = Question(
             id = 12,
-            question = "Blue yacht (A) did not arrive first. Yellow yacht (C) " +
+            question = "Blue yacht (1) did not arrive first. Yellow yacht (3) " +
                     "came in fourth. The rest of the yachts were moving at the same speed. " +
                     "Which yacht arrived first?",
             questionImage = R.drawable.trickyquesxii,
@@ -2979,8 +2979,8 @@ object Constants {
             lockIconImage = R.drawable.ltrickyiconxii,
             name = "tricky12",
             answerImage = R.drawable.trickyansxii,
-            answer = "It is shown in the picture that the green yacht D came first. " +
-                    "It is ahead of yachts E and B at the moment. Yachts E, B, and D " +
+            answer = "It is shown in the picture that the green yacht 4 came first. " +
+                    "It is ahead of yachts 5 and 2 at the moment. Yachts 2, 5, and 4 " +
                     "move at the same speed all the time. ",
             hint = null)
 
@@ -3025,8 +3025,8 @@ object Constants {
             val trickyQuestion15 = Question(
                 id = 15,
         question = "Seven flasks of pink substance can be synthesized from 2 flasks of" +
-                " red substance and 5 flasks of purple substance. You have 11 flasks of " +
-                "red substance and 11 flasks of purple substance. How many flasks of pink" +
+                "orange substance and 5 flasks of blue substance. You have 11 flasks of " +
+                "orange substance and 11 flasks of blue substance. How many flasks of pink" +
                 " substance can be synthesized?",
         questionImage = R.drawable.trickyquesxv,
         numberOfQuestions = 6,
@@ -3035,9 +3035,9 @@ object Constants {
         lockIconImage = R.drawable.ltrickyiconxv,
         name = "tricky15",
         answerImage = R.drawable.trickyansxv,
-        answer = "There is an excess of the red substance, so we can consider only the " +
-                "purple substance. 11 flasks of the purple substance are not divisible by 5." +
-                " Therefore, we can use 10 flasks of purple and 4 flasks of red substance" +
+        answer = "There is an excess of the orange substance, so we should consider only the " +
+                "blue substance. 11 flasks of the blue substance are not divisible by 5." +
+                " Therefore, we can use 10 flasks of blue and 4 flasks of orange substance" +
                 " to obtain 14 flasks of the pink substance.",
         hint = null)
 
@@ -3311,7 +3311,7 @@ object Constants {
         val trickyQuestion32 = Question(
             id = 32,
             question = "Which is heavier underwater a pound of bananas or a pound of" +
-                    " gold? A. A pound of bananas is heavier. B. A pound of gold is " +
+                    " gold? A. A pound of gold is heavier. B. A pound of bananas is " +
                     "heavier. C. Both weigh the same.",
             questionImage = R.drawable.trickyquesxxxii,
             numberOfQuestions = 3,
@@ -3866,7 +3866,7 @@ object Constants {
             answerImage = R.drawable.easyansiv,
             answer = "Ответ на картинке." +
                     "\nНажмите \"Q\" чтобы посмотреть условие",
-            hint = "Содержит 6…")
+            hint = "Не содержит 6…")
 
         questionsList.add(easyQuestion4)
 
@@ -3881,14 +3881,14 @@ object Constants {
             name = "easy5",
             answerImage = R.drawable.easyansv,
             answer = "Ответ на картинке.",
-            hint = "Состоит из 7 линий…")
+            hint = "Состоит из 4 линий и окружности…")
 
         questionsList.add(easyQuestion5)
 
         val easyQuestion6 = Question(
             id = 6,
             question = "За победу в соревнованиях Вам предложили либо взять мешок" +
-                    " с 75 монетами и еще треть от этого мешка, лили взять 2 мешка" +
+                    " с 75 монетами и еще треть от этого мешка, или взять 2 мешка" +
                     " по 50 монет. Какой вариант выгоднее? А. Первый вариант. В." +
                     " Второй вариант. С. Варианты равнозначны.",
             questionImage = R.drawable.easyquesvi,
@@ -4256,7 +4256,7 @@ object Constants {
 
         val easyQuestion28 = Question(
             id = 28,
-            question = "Какие двое часов отличается от всех остальных?",
+            question = "Какие двое часов отличаются от всех остальных?",
             questionImage = R.drawable.easyquesxxviii,
             numberOfQuestions = 4,
             correctAnswer = 3,
@@ -4361,13 +4361,13 @@ object Constants {
             name = "easy34",
             answerImage = R.drawable.easyansxxxiv,
             answer = "Только одна последовательность правильная.",
-            hint = " Делить не надо…")
+            hint = " Делить надо…")
 
         questionsList.add(easyQuestion34)
 
         val easyQuestion35 = Question(
             id = 35,
-            question = "Какого цвета последняя фигура.",
+            question = "Какого цвета последняя фигура?",
             questionImage = R.drawable.easyquesxxxv,
             numberOfQuestions = 4,
             correctAnswer = 2,
@@ -4390,14 +4390,14 @@ object Constants {
             lockIconImage = R.drawable.leasyiconxxxvi,
             name = "easy36",
             answerImage = R.drawable.easyansxxxvi,
-            answer = "После любой n-конечной звездой идет (n+2)-конечная звезда.",
+            answer = "После любой n-конечной звезды идет (n+2)-конечная звезда.",
             hint = " Посчитайте концы…")
 
         questionsList.add(easyQuestion36)
 
         val easyQuestion37 = Question(
             id = 37,
-            question = "У Стива два друга. Лоренц дружит со Стивом." +
+            question = "У Стива два друга, а Лоренц дружит со Стивом." +
                     " Под буквой В скрывается Джо. Где Марк?",
             questionImage = R.drawable.easyquesxxxvii,
             numberOfQuestions = 4,
@@ -4486,9 +4486,9 @@ object Constants {
             lockIconImage = R.drawable.leasyiconxlii,
             name = "easy42",
             answerImage = R.drawable.easyansxlii,
-            answer = "Играя хоккей, мы передвигаемся на коньках, а на рыбалке мы" +
+            answer = "Играя в хоккей, мы передвигаемся на коньках, а на рыбалке мы" +
                     " передвигаемся на лодке.",
-            hint = "Играя хоккей, мы передвигаемся на коньках, а на рыбалке…")
+            hint = "Играя в хоккей, мы передвигаемся на коньках, а на рыбалке…")
 
         questionsList.add(easyQuestion42)
 
@@ -4509,7 +4509,7 @@ object Constants {
 
         val easyQuestion44 = Question(
             id = 44,
-            question = "Какая карта должна быть вместо вопросительного знака.",
+            question = "Какая карта должна быть вместо вопросительного знака?",
             questionImage = R.drawable.easyquesxliv,
             numberOfQuestions = 4,
             correctAnswer = 2,
@@ -4544,7 +4544,7 @@ object Constants {
             id = 46,
             question = "Между пунктами 1 и 0 существуют дороги, которые проходят через пункты 2," +
                     " 3 и 4. Они ведут только в ту сторону, куда указывают стрелки. Сколько" +
-                    " различных путей (например, 1->2 ->0) существует между пунктами 1 и 0?",
+                    " различных путей (например, 1 -> 2 -> 0) существует между пунктами 1 и 0?",
             questionImage = R.drawable.easyquesxlvi,
             numberOfQuestions = 6,
             correctAnswer = 4,
@@ -4680,8 +4680,7 @@ object Constants {
         val normalQuestion1 = Question(
             id = 1,
             question = "Найдите выход из лабиринта при условии, что переход с линии на линию " +
-                    "невозможен, если их ограничивает сплошная черная линия." +
-                    "\nНажмите \"Q\" чтобы посмотреть условие",
+                    "невозможен, если их ограничивает сплошная черная линия.",
             questionImage = R.drawable.normalquesi,
             numberOfQuestions = 3,
             correctAnswer = 3,
@@ -4689,7 +4688,8 @@ object Constants {
             lockIconImage = R.drawable.lnormaliconi,
             name = "normal1",
             answerImage = R.drawable.normalansi,
-            answer = "Ответ на картинке.",
+            answer = "Ответ на картинке." +
+                    "\nНажмите \"Q\" чтобы посмотреть условие",
             hint = "Проследите за дорогой от старта до финиша…"
         )
 
@@ -4740,7 +4740,7 @@ object Constants {
             lockIconImage = R.drawable.lnormaliconiv,
             name = "normal4",
             answerImage = R.drawable.normalansiv,
-            answer = "Схема #6 имеет маленькую деталь (обозначенную красной стрелкой), " +
+            answer = "Схема #6 имеет маленькую деталь (обозначенную красной рамкой), " +
                     "которая не соответствует другим рисункам в колонке." +
                     "\nНажмите \"Q\" чтобы посмотреть условие",
             hint = "Просмотрите на элементы в колонках…"
@@ -4867,7 +4867,7 @@ object Constants {
             lockIconImage = R.drawable.lnormaliconxi,
             name = "normal11",
             answerImage = R.drawable.normalansxi,
-            answer = "Только бирюзовая окружность удовлетворяет условиям задачи.",
+            answer = "Только зеленый шестиугольник удовлетворяет условиям задачи.",
             hint = "Не F…"
         )
 
@@ -5434,10 +5434,7 @@ object Constants {
 
         val normalQuestion43 = Question(
             id = 43,
-            question = "Зубец с каким символом фиолетовой шестерёнки будет находиться" +
-                    " над зубцом с символом «окружность» принадлежащему розовой шестерёнке," +
-                    " когда последний (зубец с символом «окружность») будет" +
-                    " находиться между двух фиолетовых зубцов?",
+            question = "Что должно быть вместо знака вопроса?",
             questionImage = R.drawable.normalquesxliii,
             numberOfQuestions = 4,
             correctAnswer = 4,
@@ -5479,7 +5476,7 @@ object Constants {
             lockIconImage = R.drawable.lnormaliconxlv,
             name = "normal45",
             answerImage = R.drawable.normalansxlv,
-            answer = "Сначала нарисовали зеленый треугольник. Поверх него нарисовали розовый крест.",
+            answer = "Сначала нарисовали зеленый треугольник. Поверх него нарисовали оранжевый крест.",
             hint = "Не серый…"
         )
 
@@ -6022,8 +6019,7 @@ object Constants {
                 answerImage = R.drawable.hardansxxi,
                 answer = "Шарики можно поставить не один на другим, а слоями со смещением " +
                         "(смотрите рисунок). Таким образом шарики можно упаковать в" +
-                        " более плотные упаковки. Смотрите статьи на тему: «Плотная" +
-                        " упаковка равных сфер».",
+                        " более плотные упаковки.",
                 hint = "Один над другим? Не думаю…"
             )
 
@@ -6288,7 +6284,7 @@ object Constants {
 
             val hardQuestion36 = Question(
                 id = 36,
-                question = "Какая веревка из затянется в узел, если ее потянуть за оба конца?",
+                question = "Какая веревка не затянется в узел, если ее потянуть за оба конца?",
                 questionImage = R.drawable.hardquesxxxvi,
                 numberOfQuestions = 6,
                 correctAnswer = 5,
@@ -6297,7 +6293,7 @@ object Constants {
                 name = "hard36",
                 answerImage = R.drawable.hardansxxxvi,
                 answer = "Ответ на рисунке.",
-                hint = "Сделайте умственный эксперимент. Не ХХХ…"
+                hint = "Сделайте умственный эксперимент. Не А…"
             )
 
             questionsList.add(hardQuestion36)
@@ -6375,7 +6371,7 @@ object Constants {
                 name = "hard40",
                 answerImage = R.drawable.hardansxl,
                 answer = "G – может быть только леденцом (конфетой в обертке). Стоящее рядом" +
-                        " пирожное уже встречается раньше с символом . Только один ответ" +
+                        " пирожное уже встречается раньше. Только один ответ" +
                         " содержит конфету.",
                 hint = "Десерты повторяются…"
             )
@@ -6417,7 +6413,7 @@ object Constants {
 
             val hardQuestion43 = Question(
                 id = 43,
-                question = "На какой из трех рисунков спрятана правильная пятиконечная звезда?",
+                question = "На каком из трех рисунков спрятана правильная пятиконечная звезда?",
                 questionImage = R.drawable.hardquesxliii,
                 numberOfQuestions = 3,
                 correctAnswer = 3,
@@ -6497,7 +6493,7 @@ object Constants {
                 id = 47,
                 question = "Коля сделал себе полную кружку чая и добавил в нее 8 кусочков" +
                         " сахара. Затем он выпил пол кружки и добавил горячей воды и 8" +
-                        " кусочков сахара. Коля пил пол кружки, добавляя сахар и воду, " +
+                        " кусочков сахара. Коля пил по пол кружки, добавляя сахар и воду, " +
                         "еще 2 раза. Затем Коля выпил всю кружку. Сколько в этой последней" +
                         " кружке было кусочков сахара?",
                 questionImage = R.drawable.hardquesxlvii,
@@ -6761,7 +6757,7 @@ object Constants {
 
         val trickyQuestion12 = Question(
             id = 12,
-            question = "Голубая яхта (A) пришла не первой. Желтая яхта (C) пришла четвертой." +
+            question = "Голубая яхта (1) пришла не первой. Желтая яхта (3) пришла четвертой." +
                     " Остальные яхты двигались с одинаковой скоростью. Какая яхта пришла первой?",
             questionImage = R.drawable.trickyquesxii,
             numberOfQuestions = 4,
@@ -6770,8 +6766,8 @@ object Constants {
             lockIconImage = R.drawable.ltrickyiconxii,
             name = "tricky12",
             answerImage = R.drawable.trickyansxii,
-            answer = "На рисунке видно, что зеленая яхта D пришла первой, она опережает" +
-                    " яхты E и B в данный момент и имеет с ними одну скорость до финиша. ",
+            answer = "На рисунке видно, что зеленая яхта 4 пришла первой, она опережает" +
+                    " яхты 5 и 2 в данный момент и имеет с ними одну скорость до финиша. ",
             hint = null)
 
         questionsList.add(trickyQuestion12)
@@ -6814,9 +6810,9 @@ object Constants {
 
         val trickyQuestion15 = Question(
             id = 15,
-            question = "Семь колб розового вещества получается из 2 колб красного вещества" +
-                    " и 5 колб фиолетовой вещества. У вас есть 11 колб красного и 11" +
-                    " колб фиолетового веществ. Сколько колб розового вещества можно сделать?",
+            question = "Семь колб розового вещества получается из 2 колб оранжевого вещества" +
+                    " и 5 колб синего вещества. У вас есть 11 колб синего и 11" +
+                    " колб оранжевого веществ. Сколько колб розового вещества можно сделать?",
             questionImage = R.drawable.trickyquesxv,
             numberOfQuestions = 6,
             correctAnswer = 1,
@@ -6824,11 +6820,11 @@ object Constants {
             lockIconImage = R.drawable.ltrickyiconxv,
             name = "tricky15",
             answerImage = R.drawable.trickyansxv,
-            answer = "Красного вещества– избыток, нужно считать по фиолетовому веществу." +
-                    " 11 колб фиолетовой вещества не делится на 5, а мы не знаем можем " +
-                    "ли мы правильно отмерять неполную колбу красной вещества. Поэтому " +
-                    "используем 10 колб фиолетового и 4 колб красного вещества, чтобы " +
-                    "получить 14 колю розового вещества.",
+            answer = "Оранжевого вещества – избыток, нужно считать по синему веществу." +
+                    " 11 колб синего вещества не делится на 5, а мы не знаем можем " +
+                    "ли мы правильно отмерять неполную колбу синего вещества. Поэтому " +
+                    "используем 10 колб синего и 4 колб оранжевого вещества, чтобы " +
+                    "получить 14 колб розового вещества.",
             hint = null)
 
         questionsList.add(trickyQuestion15)
@@ -7057,7 +7053,7 @@ object Constants {
             name = "tricky29",
             answerImage = R.drawable.trickyansxxix,
             answer = "Ответ на экране. Провод может менять цвет, и" +
-                    " начинаться не так как заканчивается.",
+                    " начинаться не так, как заканчивается.",
             hint = null)
 
         questionsList.add(trickyQuestion29)
@@ -7098,7 +7094,7 @@ object Constants {
             id = 32,
             question = "На чашу весов положили килограмм бананов, а на вторую чашу положили" +
                     " килограмм золотых монет.  В какую сторону перевесили чаши весов если" +
-                    " их опустить под воду? А. В сторону бананов. Б. В сторону золотых монет." +
+                    " их опустить под воду? А. В сторону золота. Б. В сторону бананов." +
                     " С. Чаши весов остались сбалансированными.",
             questionImage = R.drawable.trickyquesxxxii,
             numberOfQuestions = 3,
@@ -7255,7 +7251,7 @@ object Constants {
 
         val trickyQuestion42 = Question(
             id = 42,
-            question = "Посмотрите на картинку и найдите соответствие во справа" +
+            question = "Посмотрите на картинку и найдите соответствие справа" +
                     " по аналогии с соответствием из левого примера.",
             questionImage = R.drawable.trickyquesxlii,
             numberOfQuestions = 4,
@@ -7337,7 +7333,7 @@ object Constants {
         val impossibleQuestion1 = Question(
             id = 1,
             question = "Сколько комбинаций можно составить из четырех палочек с цепкими концами," +
-                    " если каждый цепкий конец может крепить не больше трех палочек," +
+                    " если каждый цепкий конец может скрепить не больше трех палочек," +
                     " и угол между палочками не может быть 0 градусов?",
             questionImage = R.drawable.impossiblequesi,
             numberOfQuestions = 6,
@@ -7369,7 +7365,7 @@ object Constants {
         val impossibleQuestion3 = Question(
             id = 3,
             question = "Сколько комбинаций, содержащих цикл, можно составить из шести палочек" +
-                    " с цепкими концами, если каждый цепкий конец может крепить не больше трех палочек," +
+                    " с цепкими концами, если каждый цепкий конец может скрепить не больше трех палочек," +
                     " и угол между палочками не может быть 0 градусов? Варианты ответов даны" +
                     " для диапазонов (например, А: от одной до 3 комбинаций).",
             questionImage = R.drawable.impossiblequesiii,
@@ -7424,7 +7420,7 @@ object Constants {
         val impossibleQuestion6 = Question(
             id = 6,
             question = "Грузы размещены на подвесных весах таким образом, чтобы весы находились" +
-                    " в равновесии и были сбалансированы. Сколько весит голубой конус?",
+                    " в равновесии и были сбалансированы. Сколько весит бирюзовый конус?",
             questionImage = R.drawable.impossiblequesvi,
             numberOfQuestions = 4,
             correctAnswer = 2,
