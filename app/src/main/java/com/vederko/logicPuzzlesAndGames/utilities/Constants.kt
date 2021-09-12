@@ -3,7 +3,7 @@ package com.vederko.logicPuzzlesAndGames.utilities
 import com.vederko.logicPuzzlesAndGames.R
 
 const val PLAYER = "player"
-const val AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
+const val AD_UNIT_ID = "ca-app-pub-2503936310063972/2304998160"
 
 object Constants {
 

@@ -925,7 +925,7 @@ if (playerLvlSelected!!.lang == "RU"){
         livesDialog.setCancelable(false)
 
         livesDialog.OkBtn.setOnClickListener {
-            if (numberOfLives!! >= 5) {
+            if (numberOfLives!! >= 3) {
                 livesDialog.dismiss()
             } else {
                 stopMusic()
@@ -1151,7 +1151,7 @@ if (playerLvlSelected!!.lang == "RU"){
             mRewardedAd?.show(
                 this,
                 OnUserEarnedRewardListener {
-                    numberOfLives = 5
+                    numberOfLives = 3
                     tvLives.text = numberOfLives.toString()
                     val sharedPreference = SharedPreference(this)
                     sharedPreference.save("numberOfLs", numberOfLives!!)

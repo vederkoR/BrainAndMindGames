@@ -77,7 +77,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/aldrich"
-                android:text="Do you wish to watch an ad to restore 2 lives and receive a bonus?"
+                android:text="Do you wish to watch an ad to restore 3 lives and receive a bonus?"
                 android:textAlignment="center"
                 android:textColor="@color/lightgrey"
                 android:textSize="20sp"
